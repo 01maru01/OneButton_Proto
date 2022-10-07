@@ -9,6 +9,7 @@ private:
 	int dis;	//	プレイヤーと中心の距離
 	float angle;
 	float spd;
+	bool hAttack;	//	強攻撃フラグ
 public:
 	Player();
 	void Init();

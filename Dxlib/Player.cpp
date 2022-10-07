@@ -12,6 +12,7 @@ Player::Player()
 
 void Player::Init()
 {
+	hAttack = false;
 	spd = 0.1f;
 	angle = 0.0f;
 	dis = 300;
@@ -26,22 +27,34 @@ void Player::Update(Input& input)
 
 	if (input.GetKey(KEY_INPUT_SPACE)) {
 		int minR = 100;
-		if (dis > minR) {
-			dis -= 3;
-		}
-		if (dis < minR) {
-			dis = minR;
+		if (!hAttack) {
+			if (dis > minR) {
+				dis -= 3;
+			}
+			if (dis <= minR) {
+				dis = minR;
+				hAttack = true;
+			}
 		}
 	}
 	else {
-		int maxR = 300;
-		if (dis < maxR) {
-			dis += 3;
+		if (!hAttack) {
+			int maxR = 300;
+			if (dis < maxR) {
+				dis += 3;
+			}
+			if (dis > maxR) {
+				dis = maxR;
+			}
 		}
-		if (dis > maxR) {
-			dis = maxR;
-		}
+	}
 
+	if (hAttack) {
+		dis += 20;
+		if (dis >= 300) {
+			dis = 300;
+			hAttack = false;
+		}
 	}
 
 	x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
