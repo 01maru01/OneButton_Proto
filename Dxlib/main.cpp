@@ -1,12 +1,8 @@
+#include "main.h"
 #include "DxLib.h"
-
-// ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "OneButton";
-
-// ウィンドウ横幅
-const int WIN_WIDTH = 600;
-// ウィンドウ縦幅
-const int WIN_HEIGHT = 400;
+#include "Player.h"
+#include "Stage.h"
+#include "Input.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
@@ -40,28 +36,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-
-
-	// 最新のキーボード情報用
-	char keys[256] = {0};
-
-	// 1ループ(フレーム)前のキーボード情報
-	char oldkeys[256] = {0};
+	Player player;
+	Stage stage;
+	Input input;
 
 	// ゲームループ
 	while (true) {
-		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
-		// 最新のキーボード情報を取得
-		GetHitKeyStateAll(keys);
+		input.Update();
 
 		// 画面クリア
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-
+		player.Update(input);
 
 		// 描画処理
+		player.Draw();
+		stage.Draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
