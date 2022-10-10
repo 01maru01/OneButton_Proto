@@ -32,6 +32,8 @@ void Stage::Update()
 	for (int i = 0; i < line.size(); i++) {
 		if (line[i].life <= 0) line[i].isActive = false;
 	}
+
+	//	UŒ‚H‚ç‚Á‚½‚Æ‚«‚ÌÀ•W
 }
 
 void Stage::Draw()
