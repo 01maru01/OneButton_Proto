@@ -27,10 +27,10 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-     <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="enemyManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-     <ClCompile Include="enemyManager.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,12 +47,11 @@
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-     <ClInclude Include="Enemy.h">
+    <ClInclude Include="enemyManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-     <ClInclude Include="enemyManager.h">
+    <ClInclude Include="Enemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-  </ItemGroup>
   </ItemGroup>
 </Project>

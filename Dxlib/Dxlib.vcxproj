@@ -131,15 +131,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-   <ClCompile Include="Enemy.cpp" />
-   <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
-   <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="main.h" />
