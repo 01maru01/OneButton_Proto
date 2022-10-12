@@ -23,8 +23,7 @@ private:
 	int idx = 0;
 public:
 	Stage();
-	void Update(float angle);
 	void Draw();
-	bool OnCollision(float angle);
+	bool OnCollision(float angle, bool damage);
 };
 

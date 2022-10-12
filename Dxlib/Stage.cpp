@@ -27,20 +27,6 @@ Stage::Stage()
 	}
 }
 
-void Stage::Update(float angle)
-{
-	for (int i = 0; i < line.size(); i++) {
-		if (line[i].life <= 0) line[i].isActive = false;
-	}
-
-	//	çUåÇêHÇÁÇ¡ÇΩÇ∆Ç´ÇÃç¿ïW
-	if (angle != NULL) {
-		int index = angle * line.size();
-		idx = index;
-		line[index].life--;
-	}
-}
-
 void Stage::Draw()
 {
 	for (int i = 0; i < line.size(); i++) {
@@ -55,12 +41,11 @@ void Stage::Draw()
 			DrawLine(line[i].x1, line[i].y1, line[i].x2, line[i].y2, color, 2);
 		}
 	}
-	//DrawFormatString(10, 10, 0xFFFFFF, "index:%d", idx);
-	//DrawCircle(x, y, maxR, 0xFFFFFF, false);
+
 	DrawCircle(x, y, minR, 0xFFFFFF, false);
 }
 
-bool Stage::OnCollision(float angle)
+bool Stage::OnCollision(float angle, bool damage)
 {
 	float p_size = 10.0f;
 	float circleLenght = maxR * 2 * PI;
@@ -72,6 +57,18 @@ bool Stage::OnCollision(float angle)
 
 	if (indexL >= line.size()) indexL -= line.size();
 	if (indexR >= line.size()) indexR -= line.size();
+
+	if (damage) {
+		line[indexL].life--;
+		if (indexL != indexR) {
+			line[indexR].life--;
+		}
+	}
+
+	//	isActiveê›íË
+	for (int i = 0; i < line.size(); i++) {
+		if (line[i].life <= 0) line[i].isActive = false;
+	}
 
 	return line[indexL].isActive || line[indexR].isActive;
 }

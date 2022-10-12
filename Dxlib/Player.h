@@ -1,6 +1,7 @@
 #pragma once
 #include "Input.h"
 #include "Vector2.h"
+#include "Stage.h"
 
 class Player
 {
@@ -27,11 +28,12 @@ private:
 public:
 	Player();
 	void Init();
-	void Update(Input& input);
+	void Update(Input& input, Stage& stage);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
-	float Damage();
+	bool Damage();
 	Vector2 GetPos() { return pos; };
 	float Angle() { return angle; }
+	void IsDead() { isLive = false; }
 };
 

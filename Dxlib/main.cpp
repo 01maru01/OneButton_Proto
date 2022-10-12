@@ -69,9 +69,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		player.Update(input);
-
-		stage.Update(player.Damage());
+		player.Update(input, stage);
 
 		if (input.GetTriggerKey(KEY_INPUT_S))
 		{
@@ -103,8 +101,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		stage.Draw();
 
 		enemyManeger.draw();
-
-		DrawFormatString(10, 10, 0xFFFFFF, "足場があるか:%d", stage.OnCollision(player.Angle()));
 
 		/*for (int i = 0; i < 10; i++)
 		{

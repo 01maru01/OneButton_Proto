@@ -30,7 +30,7 @@ void Player::Init()
 	stunTime = 0;
 }
 
-void Player::Update(Input& input)
+void Player::Update(Input& input, Stage& stage)
 {
 	float minR = 100.0f;
 	float maxR = 300.0f;
@@ -40,7 +40,7 @@ void Player::Update(Input& input)
 		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
 		KnockBack(e_spd);
 	}
-	if(input.GetTriggerKey(KEY_INPUT_E)) {
+	if(input.GetTriggerKey(KEY_INPUT_E)&&isLive) {
 		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
 		KnockBack(e_spd);
 		backSpd.x = 0.0f;
@@ -73,7 +73,13 @@ void Player::Update(Input& input)
 		dis += backSpd.y;
 
 		if (dis >= maxR) {
-			dis = maxR;
+			if (stage.OnCollision(angle, Damage())) {
+				dis = maxR;
+			}
+			else {
+				isLive = false;
+				dis = maxR;
+			}
 			//	ダメージ
 			damage = true;
 			knockBack = false;
@@ -96,8 +102,8 @@ void Player::Update(Input& input)
 #pragma region heavyAttack
 	if (hAttack) {
 		dis += 20;
-		if (dis >= 300) {
-			dis = 300;
+		if (dis >= maxR) {
+			dis = maxR;
 			hAttack = false;
 
 			//	スタン処理
@@ -109,23 +115,34 @@ void Player::Update(Input& input)
 #pragma endregion
 
 #pragma region キー入力
-	if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
-		if (dis > minR) {
-			dis -= 3.0f;
+	if (isLive) {
+		if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
+			if (dis > minR) {
+				dis -= 3.0f;
+			}
+		}
+		else {
+			if (!hAttack) {
+				if (dis < maxR) {
+					dis += 3.0f;
+				}
+			}
 		}
 	}
 	else {
-		if (!hAttack) {
-			if (dis < maxR) {
-				dis += 3.0f;
-			}
-		}
+		dis += 3.0f;
 	}
 #pragma endregion
 
 #pragma region Dis範囲制限
-	if (dis > maxR && isLive) {
-		dis = maxR;
+	if (dis >= maxR && isLive) {
+		if (stage.OnCollision(angle, Damage())) {
+			dis = maxR;
+		}
+		else {
+			isLive = false;
+			dis = maxR;
+		}
 	}
 
 	if (dis <= minR) {
@@ -184,11 +201,11 @@ void Player::KnockBack(Vector2& e_spd)
 	backSpd /= kbTime;
 }
 
-float Player::Damage()
+bool Player::Damage()
 {
 	if (damage) {
 		damage = false;
-		return angle;
+		return true;
 	}
-	return NULL;
+	return false;
 }
