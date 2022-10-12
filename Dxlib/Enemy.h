@@ -17,6 +17,7 @@ public:
 	void Update(Input& input);
 	void SetPos(Vector2 Poa);
 	void SetIsDied(bool isdied);
+	Vector2 GetPos() { return pos; };
 
 	bool GetIsDied() { return isDied; };
 

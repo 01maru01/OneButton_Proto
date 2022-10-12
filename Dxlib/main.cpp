@@ -6,6 +6,22 @@
 #include "Input.h"
 #include "enemyManager.h"
 
+bool CircleCollsion(Vector2 play, Vector2 ene) {
+
+	int a = (play.x - ene.x) * (play.x - ene.x);
+	int b = (play.y - ene.y) * (play.y - ene.y);
+
+	int c = 26 * 26;
+
+	//あたり判定
+	if (a + b < c)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
 	// ウィンドウモードに設定
@@ -63,6 +79,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		enemyManeger.update();
+
+		for (int i = 0; i < 10; i++)
+		{
+			enemy[i].Update(input);
+		}
+
+		for (int i = 0; i < enemyManeger.getenemy().size(); i++)
+		{
+			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
+				enemyManeger.getenemy()[i]->OnCollsion();
+			}
+		}
 
 		/*for (int i = 0; i < 10; i++)
 		{

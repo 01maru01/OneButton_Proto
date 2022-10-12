@@ -27,6 +27,7 @@ public:
 	void Update(Input& input);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
-	float Damage();
+	float Damage();;
+	Vector2 GetPos() { return pos; };
 };
 
