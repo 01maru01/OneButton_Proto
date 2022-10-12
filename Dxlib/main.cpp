@@ -1,6 +1,7 @@
 #include "main.h"
 #include "DxLib.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Stage.h"
 #include "Input.h"
 
@@ -39,6 +40,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Player player;
 	Stage stage;
 	Input input;
+	Enemy enemy[10];
 
 	// ゲームループ
 	while (true) {
@@ -51,9 +53,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 更新処理
 		player.Update(input);
 
+		for (int i = 0; i < 10; i++)
+		{
+			enemy[i].Update(input);
+		}
+
 		// 描画処理
 		player.Draw();
 		stage.Draw();
+
+		for (int i = 0; i < 10; i++)
+		{
+			enemy[i].Draw();
+		}
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

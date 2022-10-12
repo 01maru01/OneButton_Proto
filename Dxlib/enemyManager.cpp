@@ -19,7 +19,7 @@ void enemyManager::update()
 {
 	for (int i = 0; i < enemys.size(); i++)
 	{
-		enemys[i]->Update();
+		//enemys[i]->Update(input);
 	}
 }
 
