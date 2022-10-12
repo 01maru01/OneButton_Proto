@@ -35,6 +35,12 @@ void Player::Update(Input& input)
 		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
 		KnockBack(e_spd);
 	}
+	if(input.GetTriggerKey(KEY_INPUT_E)) {
+		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
+		KnockBack(e_spd);
+		backSpd.x = 0.0f;
+		backSpd.y = 100.0f;
+	}
 
 #pragma region ÉXÉ^Éì
 	if (stun) {
@@ -162,8 +168,6 @@ void Player::KnockBack(Vector2& e_spd)
 	float knockBackSpd = vertVec.dot(e_spd);
 	backSpd.x = knockBackSpd / 30.0f;
 	backSpd.y = lineVec.dot(e_spd) * 50;	//	ëÂÇ´Ç≥íçà”
-	backSpd.x = 0.0f;
-	backSpd.y = 100.0f;
 	if (backSpd.x < 0) {
 		backSpd.x += spd;
 		spd = 0.0f;
