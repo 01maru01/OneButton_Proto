@@ -100,8 +100,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		enemyManeger.draw();
 
-		DrawFormatString(10, 10, 0xFFFFFF, "足場があるか:%d", stage.OnCollision(player.Angle()));
-
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();
