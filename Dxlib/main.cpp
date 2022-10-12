@@ -1,8 +1,10 @@
 #include "main.h"
 #include "DxLib.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Stage.h"
 #include "Input.h"
+#include "enemyManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
@@ -39,6 +41,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Player player;
 	Stage stage;
 	Input input;
+	Enemy enemy[10];
+	EnemyManager enemyManeger;
 
 	// ゲームループ
 	while (true) {
@@ -51,9 +55,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 更新処理
 		player.Update(input);
 
+		if (input.GetTriggerKey(KEY_INPUT_S))
+		{
+			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
+		}
+
+		/*for (int i = 0; i < 10; i++)
+		{
+			enemy[i].Update(input);
+		}*/
+
 		// 描画処理
 		player.Draw();
 		stage.Draw();
+
+		enemyManeger.draw();
+
+		/*for (int i = 0; i < 10; i++)
+		{
+			enemy[i].Draw();
+		}*/
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

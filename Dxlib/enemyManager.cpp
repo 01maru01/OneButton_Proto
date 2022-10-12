@@ -1,11 +1,21 @@
 #include "enemyManager.h"
 
-enemyManager::enemyManager()
+#include <random>
+
+int GetRandom(int min, int max)
+{
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_int_distribution<> distr(min, max);
+	return distr(eng);
+}
+
+EnemyManager::EnemyManager()
 {
 
 }
 
-enemyManager::~enemyManager()
+EnemyManager::~EnemyManager()
 {
 
 	for (int i = 0; i < enemys.size(); i++)
@@ -15,15 +25,15 @@ enemyManager::~enemyManager()
 
 }
 
-void enemyManager::update()
+void EnemyManager::update()
 {
 	for (int i = 0; i < enemys.size(); i++)
 	{
-		enemys[i]->Update();
+		//enemys[i]->Update(input);
 	}
 }
 
-void enemyManager::draw()
+void EnemyManager::draw()
 {
 
 	for (int i = 0; i < enemys.size(); i++)
@@ -33,20 +43,43 @@ void enemyManager::draw()
 
 }
 
-void enemyManager::enemyPop(float posX, float posY)
+void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 {
 	//‰¼‰«‚Ì’†g‚ğì‚é
 	Enemy* newEnemy = new Enemy();
 
+	int max = 200;
+
+	Vector2 Pos = {};
+
+	int a = GetRandom(-max, max);
+
+	while (a < 60 && a > -60)
+	{
+		a = GetRandom(-max, max);
+	}
+
+	Pos.x = WIN_WIDTH / 2.0f + a;
+
+	a = GetRandom(-max, max);
+
+	while (a < 60 && a >-60)
+	{
+		a = GetRandom(-max, max);
+	}
+
+	Pos.y = WIN_HEIGHT / 2.0f + a;
+
 	//enemy‚Ìinit‚ğŒÄ‚Ô
 	newEnemy->Initialize();
+	newEnemy->SetPos(Pos);
 
 	//Ši”[
 	enemys.push_back(newEnemy);
 
 }
 
-std::vector<Enemy*> enemyManager::getenemy()
+std::vector<Enemy*> EnemyManager::getenemy()
 {
 	return enemys;
 }
