@@ -22,6 +22,8 @@ void Player::Init()
 
 	knockBack = false;
 	kbTime = 0;
+
+	damage = false;
 }
 
 void Player::Update(Input& input)
@@ -52,6 +54,8 @@ void Player::Update(Input& input)
 		if (dis > maxR) {
 			dis = maxR;
 			//	É_ÉÅÅ[ÉW
+			damage = true;
+			knockBack = false;
 		}
 		
 		if (kbTime <= 0 && spd > maxSpd) {
@@ -91,10 +95,6 @@ void Player::Update(Input& input)
 		if (dis > minR) {
 			dis -= 3.0f;
 		}
-		if (dis <= minR) {
-			dis = minR;
-			hAttack = true;
-		}
 	}
 	else {
 		if (!hAttack) {
@@ -106,6 +106,11 @@ void Player::Update(Input& input)
 				dis = maxR;
 			}
 		}
+	}
+	float minR = 100.0f;
+	if (dis <= minR) {
+		dis = minR;
+		hAttack = true;
 	}
 #pragma endregion
 
@@ -125,11 +130,12 @@ void Player::Draw()
 	//vertVec *= 100;
 	//DrawLine(pos.x, pos.y, pos.x + vertVec.x, pos.y + vertVec.y, 0xFF0000);
 #pragma endregion
-
-	DrawFormatString(10, 10, 0xFFFFFF, "bool:%d", knockBack);
+	int color = 0xFFFFFF;
+	if (knockBack) color = 0xFF0000;
+	//DrawFormatString(10, 10, color, "angle:%f", angle);
 
 	DrawLine(pos.x, pos.y, center.x, center.y, 0xFF0000);
-	DrawCircle(pos.x, pos.y, 10, 0xFF0000);
+	DrawCircle(pos.x, pos.y, 10, color);
 }
 
 void Player::KnockBack(Vector2& e_spd)
@@ -141,7 +147,7 @@ void Player::KnockBack(Vector2& e_spd)
 	float knockBackSpd = vertVec.dot(e_spd);
 	backSpd.x = knockBackSpd / 30.0f;
 	backSpd.y = lineVec.dot(e_spd) * 50;	//	ëÂÇ´Ç≥íçà”
-	
+	backSpd.y = 50;
 	if (backSpd.x < 0) {
 		backSpd.x += spd;
 		spd = 0.0f;
@@ -150,4 +156,13 @@ void Player::KnockBack(Vector2& e_spd)
 	kbTime = 20;
 
 	backSpd /= kbTime;
+}
+
+float Player::Damage()
+{
+	if (damage) {
+		damage = false;
+		return angle;
+	}
+	return NULL;
 }

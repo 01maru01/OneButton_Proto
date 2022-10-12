@@ -27,13 +27,18 @@ Stage::Stage()
 	}
 }
 
-void Stage::Update()
+void Stage::Update(float angle)
 {
 	for (int i = 0; i < line.size(); i++) {
 		if (line[i].life <= 0) line[i].isActive = false;
 	}
 
 	//	UŒ‚H‚ç‚Á‚½‚Æ‚«‚ÌÀ•W
+	if (angle != NULL) {
+		int index = angle * line.size();
+		idx = index;
+		line[index].life--;
+	}
 }
 
 void Stage::Draw()
@@ -41,9 +46,16 @@ void Stage::Draw()
 	for (int i = 0; i < line.size(); i++) {
 		int color = 0xFFFFFF;
 		if (line[i].isActive) {
-			DrawLine(line[i].x1, line[i].y1, line[i].x2, line[i].y2, 0xFFFFFF, 2);
+			if (line[i].life == 2) {
+				color = 0x888888;
+			}
+			if (line[i].life == 1) {
+				color = 0xFF0000;
+			}
+			DrawLine(line[i].x1, line[i].y1, line[i].x2, line[i].y2, color, 2);
 		}
 	}
+	//DrawFormatString(10, 10, 0xFFFFFF, "index:%d", idx);
 	//DrawCircle(x, y, maxR, 0xFFFFFF, false);
 	DrawCircle(x, y, minR, 0xFFFFFF, false);
 }

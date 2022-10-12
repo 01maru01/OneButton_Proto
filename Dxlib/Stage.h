@@ -19,10 +19,12 @@ private:
 	int maxR;
 	int minR;
 	std::vector<Line> line;
+
+	int idx = 0;
 public:
 	Stage();
 	void Init();
-	void Update();
+	void Update(float angle);
 	void Draw();
 };
 

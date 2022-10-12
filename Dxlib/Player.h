@@ -12,6 +12,12 @@ private:
 	float maxSpd;
 	bool hAttack;	//	強攻撃フラグ
 
+	//	ダメージ
+	bool damage;
+
+	//	スタン
+
+	//	KnockBack
 	bool knockBack;
 	int kbTime;
 	Vector2 backSpd;	//	x:spd,y:dis
@@ -21,5 +27,6 @@ public:
 	void Update(Input& input);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
+	float Damage();
 };
 

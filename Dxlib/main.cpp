@@ -55,6 +55,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// XVˆ—
 		player.Update(input);
 
+		stage.Update(player.Damage());
+
 		if (input.GetTriggerKey(KEY_INPUT_S))
 		{
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
