@@ -82,11 +82,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		for (int i = 0; i < 10; i++)
 		{
-			enemy[i].Update(input);
+			enemy[i].Update();
 		}
 
 		for (int i = 0; i < enemyManeger.getenemy().size(); i++)
 		{
+			enemyManeger.getenemy()[i]->Update();
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
 				enemyManeger.getenemy()[i]->OnCollsion();
 			}
