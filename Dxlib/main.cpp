@@ -60,6 +60,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Enemy enemy[10];
 	EnemyManager enemyManeger;
 
+	int time = 0;
+
 	// ゲームループ
 	while (true) {
 		input.Update();
@@ -73,8 +75,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		stage.Update(player.Damage());
 
-		if (input.GetTriggerKey(KEY_INPUT_S))
-		{
+		time++;
+		if (time > 60) {
+			time = 0;
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
 
@@ -93,11 +96,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 		}
 
-		/*for (int i = 0; i < 10; i++)
-		{
-			enemy[i].Update(input);
-		}*/
-
 		// 描画処理
 		player.Draw();
 		stage.Draw();
@@ -105,11 +103,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		enemyManeger.draw();
 
 		DrawFormatString(10, 10, 0xFFFFFF, "足場があるか:%d", stage.OnCollision(player.Angle()));
-
-		/*for (int i = 0; i < 10; i++)
-		{
-			enemy[i].Draw();
-		}*/
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

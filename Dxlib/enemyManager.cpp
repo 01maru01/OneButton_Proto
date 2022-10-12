@@ -1,5 +1,4 @@
 #include "enemyManager.h"
-
 #include <random>
 #include "DxLib.h"
 
@@ -14,18 +13,14 @@ int GetRandom(int min, int max)
 EnemyManager::EnemyManager()
 {
 
-
-
 }
 
 EnemyManager::~EnemyManager()
 {
-
 	for (int i = 0; i < enemys.size(); i++)
 	{
 		delete enemys[i];
 	}
-
 }
 
 void EnemyManager::update()
@@ -45,19 +40,14 @@ void EnemyManager::update()
 			enemys[i]->SetIsDied(true);
 		}
 	}
-
-	
-
 }
 
 void EnemyManager::draw()
 {
-
 	for (int i = 0; i < enemys.size(); i++)
 	{
 		enemys[i]->Draw();
 	}
-
 }
 
 void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
@@ -65,27 +55,23 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	//âºâ´ÇÃíÜêgÇçÏÇÈ
 	Enemy* newEnemy = new Enemy();
 
-	int max = 200;
+	int max = 210;
+	int min = 100;
 
 	Vector2 Pos = {};
 
 	int a = GetRandom(-max, max);
+	int b = GetRandom(-max, max);
 
-	while (a < 60 && a > -60)
+	while (a < min && a > -min && b < min && b > -min)
 	{
 		a = GetRandom(-max, max);
+		b = GetRandom(-max, max);
 	}
 
-	Pos.x = WIN_WIDTH / 2.0f + a;
+	Pos.x = WIN_WIDTH / 2.0f + a + (b / 10);
 
-	a = GetRandom(-max, max);
-
-	while (a < 60 && a >-60)
-	{
-		a = GetRandom(-max, max);
-	}
-
-	Pos.y = WIN_HEIGHT / 2.0f + a;
+	Pos.y = WIN_HEIGHT / 2.0f + b + (a / 10);
 
 	//enemyÇÃinitÇåƒÇ‘
 	newEnemy->Initialize();
