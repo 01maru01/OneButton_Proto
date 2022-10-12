@@ -35,6 +35,14 @@ void Stage::Update()
 		if (line[i].flashing && line[i].activeTime > 0) line[i].activeTime--;
 		if (line[i].flashing && line[i].activeTime <= 0) line[i].isActive = false;
 	}
+
+	if (circle.life <= 0) circle.isActive = false;
+	if (!circle.isActive) circle.feaverTimer--;
+	if (circle.feaverTimer <= 0) {
+		circle.feaverTimer = 300;
+		circle.isActive = true;
+		circle.life = 50;
+	}
 }
 
 void Stage::Draw()
@@ -52,7 +60,9 @@ void Stage::Draw()
 		}
 	}
 
-	DrawCircle(x, y, minR, 0xFFFFFF, false);
+	if (circle.isActive) {
+		DrawCircle(x, y, minR, 0xFFFFFF, false);
+	}
 }
 
 bool Stage::OnCollision(float angle, bool damage)

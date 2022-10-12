@@ -28,10 +28,14 @@ void Player::Init()
 
 	stun = false;
 	stunTime = 0;
+
+	combo = 0;
 }
 
 void Player::Update(Input& input, Stage& stage)
 {
+	combo++;
+
 	float minR = 100.0f;
 	float maxR = 300.0f;
 
@@ -75,6 +79,7 @@ void Player::Update(Input& input, Stage& stage)
 		if (dis >= maxR) {
 			if (stage.OnCollision(angle, Damage())) {
 				dis = maxR;
+				combo = 0;
 			}
 			else {
 				isLive = false;
@@ -105,6 +110,7 @@ void Player::Update(Input& input, Stage& stage)
 		if (dis >= maxR) {
 			dis = maxR;
 			hAttack = false;
+			combo = 0;
 
 			//	ƒXƒ^ƒ“ˆ—
 			spd = 0;
@@ -138,6 +144,7 @@ void Player::Update(Input& input, Stage& stage)
 	if (dis >= maxR && isLive) {
 		if (stage.OnCollision(angle, Damage())) {
 			dis = maxR;
+			combo = 0;
 		}
 		else {
 			isLive = false;

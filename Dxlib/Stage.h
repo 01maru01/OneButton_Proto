@@ -13,6 +13,12 @@ typedef struct Line
 	int activeTime;
 }Line;
 
+typedef struct SmallCircle {
+	int life = 50;
+	bool isActive = true;
+	int feaverTimer = 300;
+};
+
 class Stage
 {
 private:
@@ -21,6 +27,8 @@ private:
 	int maxR;
 	int minR;
 	std::vector<Line> line;
+
+	SmallCircle circle;
 
 	int idx = 0;
 public:

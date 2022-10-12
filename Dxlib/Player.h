@@ -25,6 +25,9 @@ private:
 	bool knockBack;
 	int kbTime;
 	Vector2 backSpd;	//	x:spd,y:dis
+
+	//	combo
+	int combo;
 public:
 	Player();
 	void Init();
