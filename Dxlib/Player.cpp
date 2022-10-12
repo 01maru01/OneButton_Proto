@@ -24,6 +24,9 @@ void Player::Init()
 	kbTime = 0;
 
 	damage = false;
+
+	stun = false;
+	stunTime = 0;
 }
 
 void Player::Update(Input& input)
@@ -33,8 +36,16 @@ void Player::Update(Input& input)
 		KnockBack(e_spd);
 	}
 
+#pragma region スタン
+	if (stun) {
+		stunTime--;
+		if (stunTime <= 0) stun = false;
+	}
+#pragma endregion
+
+
 #pragma region 加速処理
-	if (!knockBack) {
+	if (!knockBack && !stun) {
 		spd += 0.01f;
 		if (spd > maxSpd) {
 			spd = maxSpd;
@@ -56,6 +67,8 @@ void Player::Update(Input& input)
 			//	ダメージ
 			damage = true;
 			knockBack = false;
+			stun = true;
+			stunTime = 10;
 		}
 		
 		if (kbTime <= 0 && spd > maxSpd) {
@@ -84,12 +97,14 @@ void Player::Update(Input& input)
 
 			//	スタン処理
 			spd = 0;
+			stun = true;
+			stunTime = 10;
 		}
 	}
 #pragma endregion
 
 #pragma region キー入力
-	if (input.GetKey(KEY_INPUT_SPACE)) {
+	if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
 		float minR = 100.0f;
 
 		if (dis > minR) {
@@ -147,7 +162,8 @@ void Player::KnockBack(Vector2& e_spd)
 	float knockBackSpd = vertVec.dot(e_spd);
 	backSpd.x = knockBackSpd / 30.0f;
 	backSpd.y = lineVec.dot(e_spd) * 50;	//	大きさ注意
-	backSpd.y = 50;
+	backSpd.x = 0.0f;
+	backSpd.y = 100.0f;
 	if (backSpd.x < 0) {
 		backSpd.x += spd;
 		spd = 0.0f;

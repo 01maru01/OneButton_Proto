@@ -16,6 +16,8 @@ private:
 	bool damage;
 
 	//	ƒXƒ^ƒ“
+	bool stun;
+	int stunTime;
 
 	//	KnockBack
 	bool knockBack;
@@ -27,7 +29,7 @@ public:
 	void Update(Input& input);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
-	float Damage();;
+	float Damage();
 	Vector2 GetPos() { return pos; };
 };
 
