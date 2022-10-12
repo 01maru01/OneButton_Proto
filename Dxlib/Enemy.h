@@ -12,4 +12,5 @@ public:
 	void Initialize();
 	void Draw();
 	void Update(Input& input);
+	void SetPos(Vector2 Poa);
 }; 

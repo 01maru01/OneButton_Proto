@@ -2,11 +2,11 @@
 #include "Enemy.h"
 #include <vector>
 
-class enemyManager
+class EnemyManager
 {
 public:
-	enemyManager();
-	~enemyManager();
+	EnemyManager();
+	~EnemyManager();
 
 	void update();
 
@@ -15,9 +15,9 @@ public:
 	/// <summary>
 	/// 敵生成
 	/// </summary>
-	/// <param name="posX">x座標</param>
-	/// <param name="posY">y座標</param>
-	void enemyPop(float posX,float posY);
+	/// <param name="WIN_WIDTH">画面サイズ横</param>
+	/// <param name="WIN_HEIGHT">画面サイズ縦</param>
+	void enemyPop(float WIN_WIDTH,float WIN_HEIGHT);
 
 	//enemyをもらう関数
 	std::vector<Enemy*> getenemy();
