@@ -33,7 +33,5 @@ public:
 	void KnockBack(Vector2& e_spd);
 	bool Damage();
 	Vector2 GetPos() { return pos; };
-	float Angle() { return angle; }
-	void IsDead() { isLive = false; }
 };
 

@@ -72,6 +72,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// XVˆ—
 		player.Update(input, stage);
+		
+		stage.Update();
 
 		time++;
 		if (time > 60) {
