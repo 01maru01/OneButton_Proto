@@ -21,32 +21,54 @@ void Player::Init()
 	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 
 	knockBack = false;
+	kbTime = 0;
 }
 
 void Player::Update(Input& input)
 {
-	spd += 0.001f;
-	if (spd > maxSpd) {
-		spd = maxSpd;
+	if(input.GetTriggerKey(KEY_INPUT_Q)) {
+		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
+		KnockBack(e_spd);
 	}
 
-#pragma region KnockBack
-	Vector2 lineVec(cos(angle * PI * 2), sin(angle * PI * 2));
-	Vector2 vertVec(-lineVec.y, lineVec.x);
-	Vector2 backSpd;
-	//if (input.GetTriggerKey(KEY_INPUT_Q)) {
-	//	backSpd.x = GetRand(10) - 5;
-	//	backSpd.y = GetRand(10) - 5;
-	//	float knockBackSpd = vertVec.dot(backSpd);
-	//	spd -= knockBackSpd;
-	//	knockBack = true;
-	//}
+#pragma region 加速処理
+	if (!knockBack) {
+		spd += 0.01f;
+		if (spd > maxSpd) {
+			spd = maxSpd;
+		}
+	}
+#pragma endregion
 
+#pragma region KnockBack
+	if (knockBack) {
+		if (kbTime <= 0 && spd <= maxSpd) knockBack = false;
+		if (kbTime > 0) kbTime--;
+
+		if (kbTime <= 0) backSpd.y = 0.0f;
+		dis += backSpd.y;
+
+		float maxR = 300.0f;
+		if (dis > maxR) {
+			dis = maxR;
+			//	ダメージ
+		}
+		
+		if (kbTime <= 0 && spd > maxSpd) {
+			spd -= backSpd.x;
+			if (spd > maxSpd) {
+				spd = maxSpd;
+			}
+		}
+		else {
+			spd += backSpd.x;
+		}
+	}
+#pragma endregion
+
+#pragma region 速度処理
 	angle += spd / (float)dis * 2 * PI;
 	if (angle >= 1) angle -= 1;
-
-	float knockBackDis = lineVec.dot(backSpd);
-	dis += knockBackDis;
 #pragma endregion
 
 #pragma region heavyAttack
@@ -55,6 +77,9 @@ void Player::Update(Input& input)
 		if (dis >= 300) {
 			dis = 300;
 			hAttack = false;
+
+			//	スタン処理
+			spd = 0;
 		}
 	}
 #pragma endregion
@@ -62,14 +87,13 @@ void Player::Update(Input& input)
 #pragma region キー入力
 	if (input.GetKey(KEY_INPUT_SPACE)) {
 		float minR = 100.0f;
-		if (!hAttack) {
-			if (dis > minR) {
-				dis -= 3.0f;
-			}
-			if (dis <= minR) {
-				dis = minR;
-				hAttack = true;
-			}
+
+		if (dis > minR) {
+			dis -= 3.0f;
+		}
+		if (dis <= minR) {
+			dis = minR;
+			hAttack = true;
 		}
 	}
 	else {
@@ -102,8 +126,28 @@ void Player::Draw()
 	//DrawLine(pos.x, pos.y, pos.x + vertVec.x, pos.y + vertVec.y, 0xFF0000);
 #pragma endregion
 
-	DrawFormatString(10, 10, 0xFFFFFF, "spd:%f", spd);
+	DrawFormatString(10, 10, 0xFFFFFF, "bool:%d", knockBack);
 
 	DrawLine(pos.x, pos.y, center.x, center.y, 0xFF0000);
 	DrawCircle(pos.x, pos.y, 10, 0xFF0000);
+}
+
+void Player::KnockBack(Vector2& e_spd)
+{
+	knockBack = true;
+
+	Vector2 lineVec(cos(angle * PI * 2), sin(angle * PI * 2));
+	Vector2 vertVec(-lineVec.y, lineVec.x);
+	float knockBackSpd = vertVec.dot(e_spd);
+	backSpd.x = knockBackSpd / 30.0f;
+	backSpd.y = lineVec.dot(e_spd) * 50;	//	大きさ注意
+	
+	if (backSpd.x < 0) {
+		backSpd.x += spd;
+		spd = 0.0f;
+	}
+	//	速度に応じてノックバックの時間設定
+	kbTime = 20;
+
+	backSpd /= kbTime;
 }

@@ -13,10 +13,13 @@ private:
 	bool hAttack;	//	‹­UŒ‚ƒtƒ‰ƒO
 
 	bool knockBack;
+	int kbTime;
+	Vector2 backSpd;	//	x:spd,y:dis
 public:
 	Player();
 	void Init();
 	void Update(Input& input);
 	void Draw();
+	void KnockBack(Vector2& e_spd);
 };
 
