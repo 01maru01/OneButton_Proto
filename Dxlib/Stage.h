@@ -9,6 +9,8 @@ typedef struct Line
 	float y2;
 	int life;
 	bool isActive;
+	bool flashing;
+	int activeTime;
 }Line;
 
 class Stage
@@ -23,6 +25,7 @@ private:
 	int idx = 0;
 public:
 	Stage();
+	void Update();
 	void Draw();
 	bool OnCollision(float angle, bool damage);
 };
