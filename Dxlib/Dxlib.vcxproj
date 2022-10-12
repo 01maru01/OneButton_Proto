@@ -135,6 +135,7 @@
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NoMoveEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="NoMoveEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Vector2.h" />
