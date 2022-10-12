@@ -20,7 +20,7 @@ public:
 	void Initialize();
 	void Draw();
 	void Update();
-	void SetPos(Vector2 Poa);
+	void SetPos(Vector2 Pos);
 	void SetIsDied(bool isdied);
 	Vector2 GetPos() { return pos; };
 
