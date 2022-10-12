@@ -1,6 +1,7 @@
 #include "enemyManager.h"
 
 #include <random>
+#include "DxLib.h"
 
 int GetRandom(int min, int max)
 {
@@ -12,6 +13,8 @@ int GetRandom(int min, int max)
 
 EnemyManager::EnemyManager()
 {
+
+
 
 }
 
@@ -27,10 +30,24 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::update()
 {
+	input.Update();
+
 	for (int i = 0; i < enemys.size(); i++)
 	{
+		if (enemys[i]->GetIsDied())
+		{
+			enemys.erase(enemys.begin() + i);
+		}
+
 		//enemys[i]->Update(input);
+		if (input.GetTriggerKey(KEY_INPUT_R))
+		{
+			enemys[i]->SetIsDied(true);
+		}
 	}
+
+	
+
 }
 
 void EnemyManager::draw()

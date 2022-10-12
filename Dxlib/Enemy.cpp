@@ -9,7 +9,6 @@ Enemy::Enemy() {
 
 void Enemy::Initialize() {
 
-	dis = 16;
 }
 
 
@@ -19,13 +18,23 @@ void Enemy::Draw() {
 
 
 void Enemy::Update(Input& input) {
-	if (input.GetTriggerKey(KEY_INPUT_S)) {
-		Initialize();
-	}
+	
 
 }
 
 void Enemy::SetPos(Vector2 Pos)
 {
 	pos = Pos;
+}
+
+void Enemy::SetIsDied(bool isdied)
+{
+	isDied = isdied;
+}
+
+void Enemy::OnCollsion()
+{
+
+	isDied = true;
+
 }
