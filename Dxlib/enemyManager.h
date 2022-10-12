@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemy.h"
 #include <vector>
+#include "Input.h"
+
 
 class EnemyManager
 {
@@ -25,6 +27,10 @@ public:
 private:
 	//enemy‚ğ‚Á‚Ä‚¢‚é‚â‚Â
 	std::vector<Enemy*> enemys;
+
+	Input input;
+
+	
 
 };
 

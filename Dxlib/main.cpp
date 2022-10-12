@@ -60,6 +60,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
 
+		enemyManeger.update();
+
 		/*for (int i = 0; i < 10; i++)
 		{
 			enemy[i].Update(input);
