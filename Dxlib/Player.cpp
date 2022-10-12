@@ -12,6 +12,7 @@ Player::Player()
 
 void Player::Init()
 {
+	isLive = true;
 	hAttack = false;
 	maxSpd = 0.1f;
 	spd = 0.0f;
@@ -31,6 +32,10 @@ void Player::Init()
 
 void Player::Update(Input& input)
 {
+	float minR = 100.0f;
+	float maxR = 300.0f;
+
+#pragma region SetKcockBackSpd
 	if(input.GetTriggerKey(KEY_INPUT_Q)) {
 		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
 		KnockBack(e_spd);
@@ -41,6 +46,7 @@ void Player::Update(Input& input)
 		backSpd.x = 0.0f;
 		backSpd.y = 100.0f;
 	}
+#pragma endregion
 
 #pragma region スタン
 	if (stun) {
@@ -48,7 +54,6 @@ void Player::Update(Input& input)
 		if (stunTime <= 0) stun = false;
 	}
 #pragma endregion
-
 
 #pragma region 加速処理
 	if (!knockBack && !stun) {
@@ -67,8 +72,7 @@ void Player::Update(Input& input)
 		if (kbTime <= 0) backSpd.y = 0.0f;
 		dis += backSpd.y;
 
-		float maxR = 300.0f;
-		if (dis > maxR) {
+		if (dis >= maxR) {
 			dis = maxR;
 			//	ダメージ
 			damage = true;
@@ -89,11 +93,6 @@ void Player::Update(Input& input)
 	}
 #pragma endregion
 
-#pragma region 速度処理
-	angle += spd / (float)dis * 2 * PI;
-	if (angle >= 1) angle -= 1;
-#pragma endregion
-
 #pragma region heavyAttack
 	if (hAttack) {
 		dis += 20;
@@ -111,28 +110,33 @@ void Player::Update(Input& input)
 
 #pragma region キー入力
 	if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
-		float minR = 100.0f;
-
 		if (dis > minR) {
 			dis -= 3.0f;
 		}
 	}
 	else {
 		if (!hAttack) {
-			float maxR = 300.0f;
 			if (dis < maxR) {
 				dis += 3.0f;
 			}
-			if (dis > maxR) {
-				dis = maxR;
-			}
 		}
 	}
-	float minR = 100.0f;
+#pragma endregion
+
+#pragma region Dis範囲制限
+	if (dis > maxR && isLive) {
+		dis = maxR;
+	}
+
 	if (dis <= minR) {
 		dis = minR;
 		hAttack = true;
 	}
+#pragma endregion
+
+#pragma region 速度処理
+	angle += spd / (float)dis * 2 * PI;
+	if (angle >= 1) angle -= 1;
 #pragma endregion
 
 #pragma region 座標更新
@@ -165,9 +169,11 @@ void Player::KnockBack(Vector2& e_spd)
 
 	Vector2 lineVec(cos(angle * PI * 2), sin(angle * PI * 2));
 	Vector2 vertVec(-lineVec.y, lineVec.x);
-	float knockBackSpd = vertVec.dot(e_spd);
-	backSpd.x = knockBackSpd / 30.0f;
-	backSpd.y = lineVec.dot(e_spd) * 50;	//	大きさ注意
+
+	//	大きさ注意
+	backSpd.x = vertVec.dot(e_spd) / 30.0f;
+	backSpd.y = lineVec.dot(e_spd) * 50;
+
 	if (backSpd.x < 0) {
 		backSpd.x += spd;
 		spd = 0.0f;

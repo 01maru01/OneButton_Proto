@@ -59,3 +59,19 @@ void Stage::Draw()
 	//DrawCircle(x, y, maxR, 0xFFFFFF, false);
 	DrawCircle(x, y, minR, 0xFFFFFF, false);
 }
+
+bool Stage::OnCollision(float angle)
+{
+	float p_size = 10.0f;
+	float circleLenght = maxR * 2 * PI;
+	float leftAngle = angle + p_size / circleLenght;
+	float rightAngle = angle - p_size / circleLenght;
+
+	int indexL = leftAngle * line.size();
+	int indexR = rightAngle * line.size();
+
+	if (indexL >= line.size()) indexL -= line.size();
+	if (indexR >= line.size()) indexR -= line.size();
+
+	return line[indexL].isActive || line[indexR].isActive;
+}

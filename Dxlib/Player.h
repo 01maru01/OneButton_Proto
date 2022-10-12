@@ -5,6 +5,7 @@
 class Player
 {
 private:
+	bool isLive;
 	Vector2 pos;
 	float dis;	//	プレイヤーと中心の距離
 	float angle;
@@ -31,5 +32,6 @@ public:
 	void KnockBack(Vector2& e_spd);
 	float Damage();
 	Vector2 GetPos() { return pos; };
+	float Angle() { return angle; }
 };
 

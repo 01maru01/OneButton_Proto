@@ -103,6 +103,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		enemyManeger.draw();
 
+		DrawFormatString(10, 10, 0xFFFFFF, "‘«ê‚ª‚ ‚é‚©:%d", stage.OnCollision(player.Angle()));
+
 		/*for (int i = 0; i < 10; i++)
 		{
 			enemy[i].Draw();
