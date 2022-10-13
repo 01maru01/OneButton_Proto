@@ -6,6 +6,7 @@
 class Player
 {
 private:
+	int r;
 	bool isLive;
 	Vector2 pos;
 	float dis;	//	プレイヤーと中心の距離

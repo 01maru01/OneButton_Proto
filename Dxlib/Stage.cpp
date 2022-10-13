@@ -71,7 +71,7 @@ void Stage::Draw()
 	}
 
 	if (circle.isActive) {
-		DrawCircle(x, y, minR, 0xFFFFFF, false);
+		DrawCircle(x, y, minR - 20, 0xFFFFFF, false);
 	}
 }
 

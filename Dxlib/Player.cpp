@@ -12,6 +12,7 @@ Player::Player()
 
 void Player::Init()
 {
+	r = 10;
 	isLive = true;
 	hAttack = false;
 	maxSpd = 0.1f;
@@ -240,8 +241,9 @@ void Player::Draw()
 	if (knockBack) color = 0xFF0000;
 	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f", spd, dis, angle);
 
-	DrawLine(pos.x, pos.y, center.x, center.y, 0xFF0000);
-	DrawCircle(pos.x, pos.y, 10, color);
+	Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
+	DrawLine(pos.x - c_center.x, pos.y - c_center.y, center.x, center.y, 0xFF0000);
+	DrawCircle(pos.x - c_center.x, pos.y - c_center.y, r, color);
 }
 
 void Player::KnockBack(Vector2& e_spd)
