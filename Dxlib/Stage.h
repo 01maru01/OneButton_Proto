@@ -10,6 +10,8 @@ typedef struct Line
 	int life;
 	bool isActive;
 	bool flashing;
+	bool shake;
+	int shakeTime;
 	int activeTime;
 }Line;
 

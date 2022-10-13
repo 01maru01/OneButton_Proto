@@ -2,6 +2,7 @@
 #include "main.h"
 #include "DxLib.h"
 #include <cmath>
+#include "Vector2.h"
 
 static const float PI = 3.1415926535f;
 
@@ -34,6 +35,9 @@ void Stage::Update()
 	for (int i = 0; i < line.size(); i++) {
 		if (line[i].flashing && line[i].activeTime > 0) line[i].activeTime--;
 		if (line[i].flashing && line[i].activeTime <= 0) line[i].isActive = false;
+
+		if (line[i].shake && line[i].shakeTime > 0) line[i].shakeTime--;
+		if (line[i].shake && line[i].shakeTime <= 0) line[i].shake = false;
 	}
 
 	if (circle.life <= 0) circle.isActive = false;
@@ -56,7 +60,13 @@ void Stage::Draw()
 			if (line[i].life <= 1) {
 				color = 0xFF0000;
 			}
-			DrawLine(line[i].x1, line[i].y1, line[i].x2, line[i].y2, color, 2);
+			
+			Vector2 shakePos;
+			if (line[i].shake) {
+				shakePos = Vector2(GetRand(line[i].shakeTime) - line[i].shakeTime / 2.0f, GetRand(line[i].shakeTime) - line[i].shakeTime / 2.0f);
+				shakePos /= 2.0f;
+			}
+			DrawLine(line[i].x1 + shakePos.x, line[i].y1 + shakePos.y, line[i].x2 + shakePos.x, line[i].y2 + shakePos.y, color, 2);
 		}
 	}
 
@@ -80,8 +90,12 @@ bool Stage::OnCollision(float angle, bool damage)
 
 	if (damage) {
 		line[indexL].life--;
+		line[indexL].shake = true;
+		line[indexL].shakeTime = 60;
 		if (indexL != indexR) {
 			line[indexR].life--;
+			line[indexR].shake = true;
+			line[indexR].shakeTime = 60;
 		}
 	}
 
