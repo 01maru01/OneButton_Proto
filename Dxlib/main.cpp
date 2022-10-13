@@ -80,14 +80,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
 
-		enemyManeger.update();
+		enemyManeger.update(player.GetPos());
 
 		for (int i = 0; i < enemyManeger.getenemy().size(); i++)
 		{
-			enemyManeger.getenemy()[i]->Update();
+			enemyManeger.getenemy()[i]->Update(player.GetPos());
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
 				enemyManeger.getenemy()[i]->OnCollsion();
-				player.AddCombo();
 			}
 		}
 
