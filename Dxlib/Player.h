@@ -11,7 +11,7 @@ private:
 	Vector2 pos;
 	float dis;	//	プレイヤーと中心の距離
 	float angle;
-	float spd;
+	Vector2 spd;
 	float maxSpd;
 	float minSpd;
 	bool hAttack;	//	強攻撃フラグ
@@ -39,5 +39,6 @@ public:
 	void KnockBack(Vector2& e_spd);
 	bool Damage();
 	Vector2 GetPos() { return pos; };
+	void AddCombo() { combo++; }
 };
 

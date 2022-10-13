@@ -17,11 +17,8 @@ void Player::Init()
 	hAttack = false;
 	maxSpd = 0.1f;
 	minSpd = 0.05f;
-	spd = 0.0f;
 	angle = 0.0f;
 	dis = 300.0f;
-	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 
 	knockBack = false;
 	kbTime = 0;
@@ -36,8 +33,6 @@ void Player::Init()
 
 void Player::Update(Input& input, Stage& stage)
 {
-	combo++;
-
 	float minR = 100.0f;
 	float maxR = 300.0f;
 
@@ -63,20 +58,20 @@ void Player::Update(Input& input, Stage& stage)
 
 #pragma region 加速処理
 	if (!knockBack && !stun) {
-		spd += 0.01f;
+		spd.x += 0.01f;
 
 		if (dis == maxR) {
 			//	壁ずり
-			if (spd > minSpd) {
-				spd -= 0.015f;
+			if (spd.x > minSpd) {
+				spd.x -= 0.015f;
 			}
-			if (spd < minSpd) {
-				spd = minSpd;
+			if (spd.x < minSpd) {
+				spd.x = minSpd;
 			}
 		}
 		else {
-			if (spd > maxSpd) {
-				spd = maxSpd;
+			if (spd.x > maxSpd) {
+				spd.x = maxSpd;
 			}
 		}
 	}
@@ -84,7 +79,7 @@ void Player::Update(Input& input, Stage& stage)
 
 #pragma region KnockBack
 	if (knockBack) {
-		if (kbTime <= 0 && spd <= maxSpd) knockBack = false;
+		if (kbTime <= 0 && spd.x <= maxSpd) knockBack = false;
 		if (kbTime > 0) kbTime--;
 
 		if (kbTime <= 0) backSpd.y = 0.0f;
@@ -106,14 +101,14 @@ void Player::Update(Input& input, Stage& stage)
 			stunTime = 10;
 		}
 		
-		if (kbTime <= 0 && spd > maxSpd) {
-			spd -= backSpd.x;
-			if (spd > maxSpd) {
-				spd = maxSpd;
+		if (kbTime <= 0 && spd.x > maxSpd) {
+			spd.x -= backSpd.x;
+			if (spd.x > maxSpd) {
+				spd.x = maxSpd;
 			}
 		}
 		else {
-			spd += backSpd.x;
+			spd.x += backSpd.x;
 		}
 	}
 #pragma endregion
@@ -138,7 +133,7 @@ void Player::Update(Input& input, Stage& stage)
 					combo = 0;
 
 					//	スタン処理
-					spd = 0;
+					spd.x = 0;
 					stun = true;
 					stunTime = 10;
 				}
@@ -156,8 +151,7 @@ void Player::Update(Input& input, Stage& stage)
 #pragma endregion
 
 #pragma region 速度処理
-		angle += spd / (float)maxR * 2 * PI;
-		if (angle >= 1) angle -= 1;
+		angle += spd.x / (float)maxR * 2 * PI;
 #pragma endregion
 	}
 	else {
@@ -170,7 +164,7 @@ void Player::Update(Input& input, Stage& stage)
 				combo = 0;
 
 				//	スタン処理
-				spd = 0;
+				spd.x = 0;
 				stun = true;
 				stunTime = 10;
 			}
@@ -180,9 +174,7 @@ void Player::Update(Input& input, Stage& stage)
 #pragma region キー入力
 		if (isLive) {
 			if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
-				if (dis > minR) {
-					dis -= 3.0f;
-				}
+				dis -= 3.0f;
 			}
 			else {
 				if (!hAttack) {
@@ -200,6 +192,7 @@ void Player::Update(Input& input, Stage& stage)
 #pragma region Dis範囲制限
 		if (dis >= maxR && isLive) {
 			if (stage.OnCollision(angle, Damage())) {
+				//	範囲外に行ったとき変更
 				dis = maxR;
 				combo = 0;
 			}
@@ -211,16 +204,18 @@ void Player::Update(Input& input, Stage& stage)
 
 		if (dis <= minR) {
 			dis = minR;
+			stage.DamageCircle(1);
 			hAttack = true;
 		}
 #pragma endregion
 
 #pragma region 速度処理
-		angle += spd / (float)dis * 2 * PI;
-		if (angle >= 1) angle -= 1;
+		angle += spd.x / (float)dis * 2 * PI;
 #pragma endregion
 	}
 
+	if (angle >= 1) angle -= 1;
+	
 #pragma region 座標更新
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
@@ -239,7 +234,7 @@ void Player::Draw()
 #pragma endregion
 	int color = 0xFFFFFF;
 	if (knockBack) color = 0xFF0000;
-	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f", spd, dis, angle);
+	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f combo:%d", spd.x, dis, angle, combo);
 
 	Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
 	DrawLine(pos.x - c_center.x, pos.y - c_center.y, center.x, center.y, 0xFF0000);
@@ -258,8 +253,8 @@ void Player::KnockBack(Vector2& e_spd)
 	backSpd.y = lineVec.dot(e_spd) * 50;
 
 	if (backSpd.x < 0) {
-		backSpd.x += spd;
-		spd = 0.0f;
+		backSpd.x += spd.x;
+		spd.x = 0.0f;
 	}
 	//	速度に応じてノックバックの時間設定
 	kbTime = 20;

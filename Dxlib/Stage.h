@@ -16,7 +16,7 @@ typedef struct Line
 }Line;
 
 typedef struct SmallCircle {
-	int life = 50;
+	int life = 10;
 	bool isActive = true;
 	int feaverTimer = 300;
 };
@@ -39,5 +39,6 @@ public:
 	void Draw();
 	bool OnCollision(float angle, bool damage);
 	bool Feaver() { return !circle.isActive; }
+	void DamageCircle(int damage) { circle.life -= damage; }
 };
 

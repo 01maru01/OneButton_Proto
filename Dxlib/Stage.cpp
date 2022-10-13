@@ -45,7 +45,7 @@ void Stage::Update()
 	if (circle.feaverTimer <= 0) {
 		circle.feaverTimer = 300;
 		circle.isActive = true;
-		circle.life = 50;
+		circle.life = 10;
 	}
 }
 
@@ -71,6 +71,7 @@ void Stage::Draw()
 	}
 
 	if (circle.isActive) {
+		DrawFormatString(WIN_WIDTH / 2 - 10, WIN_HEIGHT / 2, 0xFFFFFF, "%d", circle.life);
 		DrawCircle(x, y, minR - 20, 0xFFFFFF, false);
 	}
 }
