@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include <vector>
 #include "Input.h"
+#include <cmath>
 
 class EnemyManager
 {

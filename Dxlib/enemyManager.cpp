@@ -29,15 +29,16 @@ void EnemyManager::update()
 
 	for (int i = 0; i < enemys.size(); i++)
 	{
-		if (enemys[i]->GetIsDied())
-		{
-			enemys.erase(enemys.begin() + i);
-		}
+		enemys[i]->Update();
 
-		//enemys[i]->Update(input);
 		if (input.GetTriggerKey(KEY_INPUT_R))
 		{
 			enemys[i]->SetIsDied(true);
+		}
+
+		if (enemys[i]->GetIsDied())
+		{
+			enemys.erase(enemys.begin() + i);
 		}
 	}
 }
@@ -55,7 +56,8 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	//‰¼‰«‚Ì’†g‚ğì‚é
 	Enemy* newEnemy = new Enemy();
 
-	int max = 210;
+	//‚±‚±‚ğ•Ï‚¦‚é‚Æƒ‰ƒ“ƒ_ƒ€‚Ì’†g‚ª•Ï‚í‚é
+	int max = 200;
 	int min = 100;
 
 	Vector2 Pos = {};
@@ -69,17 +71,31 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 		b = GetRandom(-max, max);
 	}
 
-	Pos.x = WIN_WIDTH / 2.0f + a + (b / 10);
+	Pos.x = WIN_WIDTH / 2.0f + a + (b / static_cast<float>(10));
 
-	Pos.y = WIN_HEIGHT / 2.0f + b + (a / 10);
+	Pos.y = WIN_HEIGHT / 2.0f + b + (a / static_cast <float>(10));
 
 	//enemy‚Ìinit‚ğŒÄ‚Ô
 	newEnemy->Initialize();
 	newEnemy->SetPos(Pos);
 
+	if (a < 0) {
+		a = -a;
+	}
+
+	if (b < 0) {
+		b = -b;
+	}
+
+	if (a > b) {
+		newEnemy->dis = 300 - a;
+	}
+	else {
+		newEnemy->dis = 300 - b;
+	}
+
 	//Ši”[
 	enemys.push_back(newEnemy);
-
 }
 
 std::vector<Enemy*> EnemyManager::getenemy()

@@ -1,7 +1,6 @@
 #pragma once
 #include "Vector2.h"
 #include "Input.h"
-#include <cmath>
 
 static const float PI = 3.141592f;
 
@@ -9,7 +8,6 @@ class Enemy {
 private: 
 
 	Vector2 pos;
-	int dis = 16;	//	プレイヤーと中心の距離
 	bool isDied = false;
 	float angle;
 	float spd;
@@ -28,4 +26,5 @@ public:
 
 	void OnCollsion();
 
+	int dis = 16;	//	プレイヤーと中心の距離
 }; 

@@ -57,7 +57,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Player player;
 	Stage stage;
 	Input input;
-	Enemy enemy[10];
 	EnemyManager enemyManeger;
 
 	int time = 0;
@@ -82,11 +81,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		enemyManeger.update();
-
-		for (int i = 0; i < 10; i++)
-		{
-			enemy[i].Update();
-		}
 
 		for (int i = 0; i < enemyManeger.getenemy().size(); i++)
 		{
