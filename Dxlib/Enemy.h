@@ -26,5 +26,5 @@ public:
 
 	void OnCollsion();
 
-	int dis = 16;	//	プレイヤーと中心の距離
+	float dis = 16;	//	プレイヤーと中心の距離
 }; 

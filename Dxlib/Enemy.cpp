@@ -23,7 +23,7 @@ void Enemy::Initialize() {
 }
 
 void Enemy::Draw() {
-	DrawCircle(pos.x, pos.y, dis, 0x00ff00, true);
+	DrawCircle(pos.x, pos.y, 16, 0x00ff00, true);
 }
 
 void Enemy::Update() {
