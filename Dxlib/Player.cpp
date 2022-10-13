@@ -200,6 +200,7 @@ void Player::Update(Input& input, Stage& stage)
 				//	”ÍˆÍŠO‚És‚Á‚½‚Æ‚«•ÏX
 				dis = maxR;
 				combo = 0;
+				spd.y = 0.0f;
 			}
 			else {
 				isLive = false;
@@ -209,7 +210,7 @@ void Player::Update(Input& input, Stage& stage)
 
 		if (dis <= minR) {
 			dis = minR;
-			stage.DamageCircle(1);
+			stage.DamageCircle(combo);
 			hAttack = true;
 		}
 #pragma endregion
