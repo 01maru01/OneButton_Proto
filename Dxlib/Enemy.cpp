@@ -5,12 +5,19 @@
 #include <cmath>
 #include <random>
 
-bool Enemy::CircleCollsionE(Vector2 play, Vector2 ene) {
+bool Enemy::CircleCollsionE(Vector2 ene, Vector2 play) {
 
-	int a = (play.x - ene.x) * (play.x - ene.x);
-	int b = (play.y - ene.y) * (play.y - ene.y);
+	Vector2 enemy = ene;
+
+	enemy.x += 50 * cos(angle * PI * 2);
+	enemy.y += 50 * sin(angle * PI * 2);
+
+	int a = (play.x - enemy.x) * (play.x - enemy.x);
+	int b = (play.y - enemy.y) * (play.y - enemy.y);
 
 	int c = (26 + search) * (26 + search);
+
+	DrawCircle(enemy.x, enemy.y, radias + search, color, false);
 
 	//‚ ‚½‚è”»’è
 	if (a + b < c)
@@ -34,21 +41,24 @@ Enemy::Enemy() {
 }
 
 void Enemy::Initialize() {
+	playerPos = { 0,0 };
 	maxSpd = 0.1f;
-	spd = 0.05f;
+	spd = 0.04f;
 	angle = GetRandom(0.0f, 1.0f);
 }
 
 void Enemy::Draw() {
 	DrawCircle(pos.x, pos.y, radias, 0x00ff00, true);
-	DrawCircle(pos.x, pos.y, radias + search, color, false);
 }
 
 void Enemy::Update(Vector2 player) {
 
 	if (attackFlag) {
 		color = 0xaaaa00;
-		spd = 0;
+		spd = 0.02;
+
+		angle -= spd / (float)dis * 2 * PI;
+		if (angle >= 1) angle -= 1;
 
 		Attack();
 	}
@@ -84,13 +94,19 @@ void Enemy::SetAttack(Vector2 player) {
 	if (attackFlag != true) {
 		if (CircleCollsionE(pos, player)) {
 			attackFlag = true;
-			if (pos.cross(player) > 0) {
-
-			}
+			playerPos = player;
 		}
 	}
 }
 
 void Enemy::Attack() {
 
+	dis += 0.5f;
+	if (dis > 300 || dis < -300)
+	{
+		isDied = true;
+	}
+
+	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 }

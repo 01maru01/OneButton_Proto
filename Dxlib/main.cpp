@@ -74,9 +74,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		
 		stage.Update();
 
-		time++;
+		/*time++;
 		if (time > 60) {
 			time = 0;
+			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
+		}*/
+
+		if (input.GetTriggerKey(KEY_INPUT_S) ){
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
 
