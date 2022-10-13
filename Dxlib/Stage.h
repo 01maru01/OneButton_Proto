@@ -36,5 +36,6 @@ public:
 	void Update();
 	void Draw();
 	bool OnCollision(float angle, bool damage);
+	bool Feaver() { return !circle.isActive; }
 };
 

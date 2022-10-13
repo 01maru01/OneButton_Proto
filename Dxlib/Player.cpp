@@ -15,6 +15,7 @@ void Player::Init()
 	isLive = true;
 	hAttack = false;
 	maxSpd = 0.1f;
+	minSpd = 0.05f;
 	spd = 0.0f;
 	angle = 0.0f;
 	dis = 300.0f;
@@ -62,8 +63,20 @@ void Player::Update(Input& input, Stage& stage)
 #pragma region 加速処理
 	if (!knockBack && !stun) {
 		spd += 0.01f;
-		if (spd > maxSpd) {
-			spd = maxSpd;
+
+		if (dis == maxR) {
+			//	壁ずり
+			if (spd > minSpd) {
+				spd -= 0.015f;
+			}
+			if (spd < minSpd) {
+				spd = minSpd;
+			}
+		}
+		else {
+			if (spd > maxSpd) {
+				spd = maxSpd;
+			}
 		}
 	}
 #pragma endregion
@@ -104,64 +117,108 @@ void Player::Update(Input& input, Stage& stage)
 	}
 #pragma endregion
 
+	if (stage.Feaver()) {
 #pragma region heavyAttack
-	if (hAttack) {
-		dis += 20;
-		if (dis >= maxR) {
-			dis = maxR;
-			hAttack = false;
-			combo = 0;
-
-			//	スタン処理
-			spd = 0;
-			stun = true;
-			stunTime = 10;
-		}
-	}
-#pragma endregion
-
-#pragma region キー入力
-	if (isLive) {
-		if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
-			if (dis > minR) {
-				dis -= 3.0f;
+		if (hAttack) {
+			if (!hAttackHalf) {
+				dis -= 20;
+				if (dis < 0) {
+					dis = abs(dis);
+					angle += 0.5f;
+					if (angle >= 1) angle -= 1;
+					hAttackHalf = true;
+				}
 			}
-		}
-		else {
-			if (!hAttack) {
-				if (dis < maxR) {
-					dis += 3.0f;
+			else {
+				dis += 20;
+				if (dis >= maxR) {
+					dis = maxR;
+					hAttack = false;
+					combo = 0;
+
+					//	スタン処理
+					spd = 0;
+					stun = true;
+					stunTime = 10;
 				}
 			}
 		}
-	}
-	else {
-		dis += 3.0f;
-	}
 #pragma endregion
 
-#pragma region Dis範囲制限
-	if (dis >= maxR && isLive) {
-		if (stage.OnCollision(angle, Damage())) {
-			dis = maxR;
-			combo = 0;
+#pragma region キー入力
+		if (isLive) {
+			if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
+				hAttack = true;
+				hAttackHalf = false;
+			}
 		}
-		else {
-			isLive = false;
-			dis = maxR;
-		}
-	}
-
-	if (dis <= minR) {
-		dis = minR;
-		hAttack = true;
-	}
 #pragma endregion
 
 #pragma region 速度処理
-	angle += spd / (float)dis * 2 * PI;
-	if (angle >= 1) angle -= 1;
+		angle += spd / (float)maxR * 2 * PI;
+		if (angle >= 1) angle -= 1;
 #pragma endregion
+	}
+	else {
+#pragma region heavyAttack
+		if (hAttack) {
+			dis += 20;
+			if (dis >= maxR) {
+				dis = maxR;
+				hAttack = false;
+				combo = 0;
+
+				//	スタン処理
+				spd = 0;
+				stun = true;
+				stunTime = 10;
+			}
+		}
+#pragma endregion
+
+#pragma region キー入力
+		if (isLive) {
+			if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
+				if (dis > minR) {
+					dis -= 3.0f;
+				}
+			}
+			else {
+				if (!hAttack) {
+					if (dis < maxR) {
+						dis += 3.0f;
+					}
+				}
+			}
+		}
+		else {
+			dis += 3.0f;
+		}
+#pragma endregion
+
+#pragma region Dis範囲制限
+		if (dis >= maxR && isLive) {
+			if (stage.OnCollision(angle, Damage())) {
+				dis = maxR;
+				combo = 0;
+			}
+			else {
+				isLive = false;
+				dis = maxR;
+			}
+		}
+
+		if (dis <= minR) {
+			dis = minR;
+			hAttack = true;
+		}
+#pragma endregion
+
+#pragma region 速度処理
+		angle += spd / (float)dis * 2 * PI;
+		if (angle >= 1) angle -= 1;
+#pragma endregion
+	}
 
 #pragma region 座標更新
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
@@ -181,7 +238,7 @@ void Player::Draw()
 #pragma endregion
 	int color = 0xFFFFFF;
 	if (knockBack) color = 0xFF0000;
-	//DrawFormatString(10, 10, color, "angle:%f", angle);
+	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f", spd, dis, angle);
 
 	DrawLine(pos.x, pos.y, center.x, center.y, 0xFF0000);
 	DrawCircle(pos.x, pos.y, 10, color);

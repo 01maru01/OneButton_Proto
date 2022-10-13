@@ -12,7 +12,9 @@ private:
 	float angle;
 	float spd;
 	float maxSpd;
+	float minSpd;
 	bool hAttack;	//	強攻撃フラグ
+	bool hAttackHalf;	//	feaver用
 
 	//	ダメージ
 	bool damage;
