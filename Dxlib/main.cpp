@@ -23,7 +23,7 @@ bool CircleCollsion(Vector2 play, Vector2 ene) {
 }
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
-                   _In_ int nCmdShow) {
+	_In_ int nCmdShow) {
 	// ウィンドウモードに設定
 	ChangeWindowMode(TRUE);
 
@@ -71,18 +71,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		player.Update(input, stage);
-		
+
 		stage.Update();
 
-		/*time++;
-		if (time > 60) {
+		time++;
+		if (time > 40) {
 			time = 0;
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
-		}*/
-
-		if (input.GetTriggerKey(KEY_INPUT_S) ){
-			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
+
+		/*if (input.GetTriggerKey(KEY_INPUT_S) ){
+			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
+		}*/
 
 		enemyManeger.update(player.GetPos());
 
@@ -90,6 +90,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			enemyManeger.getenemy()[i]->Update(player.GetPos());
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
+
+				if (enemyManeger.getenemy()[i]->GetAttackFlag()) {
+					Vector2 hozon = enemyManeger.getenemy()[i]->GetSpd();
+ 					player.KnockBack(hozon);
+				}
+
 				enemyManeger.getenemy()[i]->OnCollsion();
 				player.AddCombo();
 			}
