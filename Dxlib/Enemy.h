@@ -8,6 +8,7 @@ class Enemy {
 private:
 
 	Vector2 pos;
+	Vector2 playerPos;
 	bool isDied = false;
 	float angle;
 	float spd;
@@ -15,7 +16,7 @@ private:
 	bool attackFlag = false;
 	int radias = 16;
 	int color = 0x00aaaa;
-	int search = 100;
+	int search = 80;
 	bool CircleCollsionE(Vector2 play, Vector2 ene);
 public:
 	Enemy();

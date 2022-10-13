@@ -57,7 +57,7 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	Enemy* newEnemy = new Enemy();
 
 	int max = 300;
-	int min = 100;
+	int min = 200;
 
 	Vector2 Pos = {};
 
