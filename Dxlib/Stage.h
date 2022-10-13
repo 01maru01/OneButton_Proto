@@ -1,24 +1,26 @@
 #pragma once
 #include <vector>
+#include "Vector2.h"
 
 typedef struct Line
 {
-	float x1;
-	float y1;
-	float x2;
-	float y2;
+	Vector2 pos1;
+	Vector2 pos2;
 	int life;
 	bool isActive;
 	bool flashing;
 	bool shake;
 	int shakeTime;
 	int activeTime;
+
+	void Init(Vector2& _pos1, Vector2& _pos2);
 }Line;
 
 typedef struct SmallCircle {
 	int life = 10;
 	bool isActive = true;
 	int feaverTimer = 300;
+	void Init();
 };
 
 class Stage

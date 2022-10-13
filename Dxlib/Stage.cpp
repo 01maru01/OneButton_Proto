@@ -2,9 +2,6 @@
 #include "main.h"
 #include "DxLib.h"
 #include <cmath>
-#include "Vector2.h"
-
-static const float PI = 3.1415926535f;
 
 Stage::Stage()
 {
@@ -13,21 +10,17 @@ Stage::Stage()
 	maxR = 300;
 	minR = 100;
 
-	line.resize(60);
+	line.resize(10);
 	for (int i = 0; i < line.size(); i++) {
-		line[i].isActive = true;
-		line[i].life = 3;
-		line[i].activeTime = 60;
-		line[i].flashing = false;
-		
-		float angle = i / (float)line.size() * 2 * PI;
-		line[i].x1 = x + maxR * cos(angle);
-		line[i].y1 = y + maxR * sin(angle);
+		float angle1 = i / (float)line.size() * 2 * PI;
+		float angle2 = (i + 1) / (float)line.size() * 2 * PI;
 
-		angle = (i + 1) / (float)line.size() * 2 * PI;
-		line[i].x2 = x + maxR * cos(angle);
-		line[i].y2 = y + maxR * sin(angle);
+		Vector2 _pos1(x + maxR * cos(angle1), y + maxR * sin(angle1));
+		Vector2 _pos2(x + maxR * cos(angle2), y + maxR * sin(angle2));
+		line[i].Init(_pos1, _pos2);
 	}
+
+	circle.Init();
 }
 
 void Stage::Update()
@@ -43,9 +36,7 @@ void Stage::Update()
 	if (circle.life <= 0) circle.isActive = false;
 	if (!circle.isActive) circle.feaverTimer--;
 	if (circle.feaverTimer <= 0) {
-		circle.feaverTimer = 300;
-		circle.isActive = true;
-		circle.life = 10;
+		circle.Init();
 	}
 }
 
@@ -66,7 +57,7 @@ void Stage::Draw()
 				shakePos = Vector2(GetRand(line[i].shakeTime) - line[i].shakeTime / 2.0f, GetRand(line[i].shakeTime) - line[i].shakeTime / 2.0f);
 				shakePos /= 2.0f;
 			}
-			DrawLine(line[i].x1 + shakePos.x, line[i].y1 + shakePos.y, line[i].x2 + shakePos.x, line[i].y2 + shakePos.y, color, 2);
+			DrawLine(line[i].pos1.x + shakePos.x, line[i].pos1.y + shakePos.y, line[i].pos2.x + shakePos.x, line[i].pos2.y + shakePos.y, color, 2);
 		}
 	}
 
@@ -106,4 +97,22 @@ bool Stage::OnCollision(float angle, bool damage)
 	}
 
 	return line[indexL].isActive || line[indexR].isActive;
+}
+
+void Line::Init(Vector2& _pos1, Vector2& _pos2)
+{
+	isActive = true;
+	life = 3;
+	activeTime = 60;
+	flashing = false;
+
+	pos1 = _pos1;
+	pos2 = _pos2;
+}
+
+void SmallCircle::Init()
+{
+	feaverTimer = 300;
+	isActive = true;
+	life = 10;
 }

@@ -2,8 +2,6 @@
 #include "Vector2.h"
 #include "Input.h"
 
-static const float PI = 3.141592f;
-
 class Enemy {
 private:
 

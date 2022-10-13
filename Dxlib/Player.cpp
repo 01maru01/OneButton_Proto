@@ -3,8 +3,6 @@
 #include "main.h"
 #include <cmath>
 
-static const float PI = 3.141592f;
-
 Player::Player()
 {
 	Init();
