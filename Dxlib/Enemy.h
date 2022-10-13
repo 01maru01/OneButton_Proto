@@ -17,6 +17,7 @@ private:
 	int radias = 16;
 	int color = 0x00aaaa;
 	int search = 80;
+	int attackCount = 0;
 	bool CircleCollsionE(Vector2 play, Vector2 ene);
 public:
 	Enemy();
@@ -31,6 +32,7 @@ public:
 	void Attack();
 
 	bool GetIsDied() { return isDied; };
+	bool GetAttackFlag() { return attackFlag; };
 
 	void OnCollsion();
 

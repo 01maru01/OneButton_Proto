@@ -45,6 +45,7 @@ void Enemy::Initialize() {
 	maxSpd = 0.1f;
 	spd = 0.04f;
 	angle = GetRandom(0.0f, 1.0f);
+	attackCount = 0;
 }
 
 void Enemy::Draw() {
@@ -71,7 +72,11 @@ void Enemy::Update(Vector2 player) {
 		pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 		pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 
-		SetAttack(player);
+		attackCount++;
+
+		if (attackCount > 1000) {
+			SetAttack(player);
+		}
 	}
 }
 
