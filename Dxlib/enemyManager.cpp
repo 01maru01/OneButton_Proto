@@ -56,8 +56,7 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	//‰¼‰«‚Ì’†g‚ðì‚é
 	Enemy* newEnemy = new Enemy();
 
-	//‚±‚±‚ð•Ï‚¦‚é‚Æƒ‰ƒ“ƒ_ƒ€‚Ì’†g‚ª•Ï‚í‚é
-	int max = 200;
+	int max = 300;
 	int min = 100;
 
 	Vector2 Pos = {};
@@ -88,10 +87,10 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	}
 
 	if (a > b) {
-		newEnemy->dis = 300 - a;
+		newEnemy->dis = 400 - a;
 	}
 	else {
-		newEnemy->dis = 300 - b;
+		newEnemy->dis = 400 - b;
 	}
 
 	//Ši”[
