@@ -10,6 +10,8 @@ Stage::Stage()
 	maxR = 300;
 	minR = 100;
 
+	clearNum = 5;
+
 	line.resize(10);
 	for (int i = 0; i < line.size(); i++) {
 		float angle1 = i / (float)line.size() * 2 * PI;
@@ -27,7 +29,10 @@ void Stage::Update()
 {
 	for (int i = 0; i < line.size(); i++) {
 		if (line[i].flashing && line[i].activeTime > 0) line[i].activeTime--;
-		if (line[i].flashing && line[i].activeTime <= 0) line[i].isActive = false;
+		if (line[i].flashing && line[i].activeTime <= 0 && line[i].isActive) {
+			line[i].isActive = false;
+			clearNum--;
+		}
 
 		if (line[i].shake && line[i].shakeTime > 0) line[i].shakeTime--;
 		if (line[i].shake && line[i].shakeTime <= 0) line[i].shake = false;
@@ -63,6 +68,7 @@ void Stage::Draw()
 
 	if (circle.isActive) {
 		DrawFormatString(WIN_WIDTH / 2 - 10, WIN_HEIGHT / 2, 0xFFFFFF, "%d", circle.life);
+		DrawFormatString(10, 20, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
 		DrawCircle(x, y, minR - 20, 0xFFFFFF, false);
 	}
 }

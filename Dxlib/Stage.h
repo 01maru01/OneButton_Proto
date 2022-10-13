@@ -30,6 +30,7 @@ private:
 	int y;
 	int maxR;
 	int minR;
+	int clearNum;
 	std::vector<Line> line;
 
 	SmallCircle circle;
