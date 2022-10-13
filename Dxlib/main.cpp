@@ -75,7 +75,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		stage.Update();
 
 		time++;
-		if (time > 60) {
+		if (time > 40) {
 			time = 0;
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}
@@ -92,8 +92,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
 
 				if (enemyManeger.getenemy()[i]->GetAttackFlag()) {
-					Vector2 sped = {3.0f,3.0f};
- 					player.KnockBack(sped);
+					Vector2 hozon = enemyManeger.getenemy()[i]->GetSpd();
+ 					player.KnockBack(hozon);
 				}
 
 				enemyManeger.getenemy()[i]->OnCollsion();

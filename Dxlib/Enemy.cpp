@@ -9,15 +9,15 @@ bool Enemy::CircleCollsionE(Vector2 ene, Vector2 play) {
 
 	Vector2 enemy = ene;
 
-	enemy.x += 50 * cos(angle * PI * 2);
-	enemy.y += 50 * sin(angle * PI * 2);
+	//enemy.x += 50 * cos(angle * PI * 2);
+	//enemy.y += 50 * sin(angle * PI * 2);
 
 	int a = (play.x - enemy.x) * (play.x - enemy.x);
 	int b = (play.y - enemy.y) * (play.y - enemy.y);
 
 	int c = (26 + search) * (26 + search);
 
-	DrawCircle(enemy.x, enemy.y, radias + search, color, false);
+	//DrawCircle(enemy.x, enemy.y, radias + search, color, false);
 
 	//‚ ‚½‚è”»’è
 	if (a + b < c)
@@ -49,7 +49,7 @@ void Enemy::Initialize() {
 }
 
 void Enemy::Draw() {
-	DrawCircle(pos.x, pos.y, radias, 0x00ff00, true);
+	DrawCircle(pos.x, pos.y, radias, color, true);
 }
 
 void Enemy::Update(Vector2 player) {
@@ -60,6 +60,8 @@ void Enemy::Update(Vector2 player) {
 
 		angle -= spd / (float)dis * 2 * PI;
 		if (angle >= 1) angle -= 1;
+
+		dis += 1.0f;
 
 		Attack();
 	}
@@ -74,8 +76,9 @@ void Enemy::Update(Vector2 player) {
 
 		attackCount++;
 
-		if (attackCount > 1000) {
+		if (attackCount > 500) {
 			SetAttack(player);
+			color = 0xaaaa00;
 		}
 	}
 }
@@ -114,4 +117,13 @@ void Enemy::Attack() {
 
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+}
+
+Vector2 Enemy::GetSpd() {
+	Vector2 speed;
+
+	speed.x = 5.0f * cos(angle * PI * 2);
+	speed.y = 5.0f * sin(angle * PI * 2);
+
+	return speed;
 }

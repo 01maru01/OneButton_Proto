@@ -27,6 +27,7 @@ public:
 	void SetPos(Vector2 Pos);
 	void SetIsDied(bool isdied);
 	Vector2 GetPos() { return pos; };
+	Vector2 GetSpd();
 
 	void SetAttack(Vector2 player);
 	void Attack();
