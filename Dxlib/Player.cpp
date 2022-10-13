@@ -65,7 +65,7 @@ void Player::Update(Input& input, Stage& stage)
 	if (!knockBack && !stun) {
 		spd.x += 0.01f;
 
-		if (dis == maxR) {
+		if (dis == maxR && !stage.Feaver()) {
 			//	壁ずり
 			if (spd.x > minSpd) {
 				spd.x -= 0.015f;
@@ -121,8 +121,9 @@ void Player::Update(Input& input, Stage& stage)
 	if (stage.Feaver()) {
 #pragma region heavyAttack
 		if (hAttack) {
+			hAttackSpd += 5.0f;
 			if (!hAttackHalf) {
-				dis -= 20;
+				dis -= hAttackSpd;
 				if (dis < 0) {
 					dis = abs(dis);
 					angle += 0.5f;
@@ -131,12 +132,15 @@ void Player::Update(Input& input, Stage& stage)
 				}
 			}
 			else {
-				dis += 20;
+				dis += hAttackSpd;
 				if (dis >= maxR) {
 					dis = maxR;
 					hAttack = false;
 					explosion = true;
-					ex_pos = pos;
+#pragma region 座標更新
+					ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+					ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+#pragma endregion
 					combo = 0;
 
 					//	スタン処理
@@ -153,6 +157,7 @@ void Player::Update(Input& input, Stage& stage)
 			if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
 				hAttack = true;
 				hAttackHalf = false;
+				hAttackSpd = 20.0f;
 			}
 		}
 #pragma endregion
@@ -164,12 +169,16 @@ void Player::Update(Input& input, Stage& stage)
 	else {
 #pragma region heavyAttack
 		if (hAttack) {
-			dis += 20;
+			hAttackSpd += 1.0f;
+			dis += hAttackSpd;
 			if (dis >= maxR) {
 				dis = maxR;
 				hAttack = false;
 				explosion = true;
-				ex_pos = pos;
+#pragma region 座標更新
+				ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+				ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+#pragma endregion
 				combo = 0;
 
 				//	スタン処理
@@ -192,7 +201,6 @@ void Player::Update(Input& input, Stage& stage)
 				if (spd.y < -3.0f) spd.y = -3.0f;
 				if (!hAttack) {
 					if (dis < maxR) {
-						//dis += 3.0f;
 						dis -= spd.y;
 					}
 				}
@@ -222,6 +230,7 @@ void Player::Update(Input& input, Stage& stage)
 			ex_R = 30 + 10 * combo;
 			stage.DamageCircle(combo + 1);
 			hAttack = true;
+			hAttackSpd = 20.0f;
 		}
 #pragma endregion
 

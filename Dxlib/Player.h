@@ -18,6 +18,8 @@ private:
 	//	heavyAttack
 	bool hAttack;	//	‹­UŒ‚ƒtƒ‰ƒO
 	bool hAttackHalf;	//	feaver—p
+	float hAttackSpd;
+	//	”š”­
 	bool explosion;
 	Vector2 ex_pos;
 	int ex_R;
