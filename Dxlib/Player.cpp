@@ -174,12 +174,17 @@ void Player::Update(Input& input, Stage& stage)
 #pragma region ƒL[“ü—Í
 		if (isLive) {
 			if (input.GetKey(KEY_INPUT_SPACE) && !stun) {
-				dis -= 3.0f;
+				spd.y += 0.2f;
+				if (spd.y > 5.0f) spd.y = 5.0f;
+				dis -= spd.y;
 			}
 			else {
+				spd.y -= 0.5f;
+				if (spd.y < -3.0f) spd.y = -3.0f;
 				if (!hAttack) {
 					if (dis < maxR) {
-						dis += 3.0f;
+						//dis += 3.0f;
+						dis -= spd.y;
 					}
 				}
 			}
