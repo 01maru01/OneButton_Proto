@@ -14,8 +14,13 @@ private:
 	Vector2 spd;
 	float maxSpd;
 	float minSpd;
+
+	//	heavyAttack
 	bool hAttack;	//	強攻撃フラグ
 	bool hAttackHalf;	//	feaver用
+	bool explosion;
+	Vector2 ex_pos;
+	int ex_R;
 
 	//	ダメージ
 	bool damage;

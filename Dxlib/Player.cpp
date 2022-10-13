@@ -29,12 +29,17 @@ void Player::Init()
 	stunTime = 0;
 
 	combo = 0;
+
+	explosion = false;
+	ex_R = 0;
 }
 
 void Player::Update(Input& input, Stage& stage)
 {
 	float minR = 100.0f;
 	float maxR = 300.0f;
+
+	explosion = false;
 
 #pragma region SetKcockBackSpd
 	if(input.GetTriggerKey(KEY_INPUT_Q)) {
@@ -130,6 +135,8 @@ void Player::Update(Input& input, Stage& stage)
 				if (dis >= maxR) {
 					dis = maxR;
 					hAttack = false;
+					explosion = true;
+					ex_pos = pos;
 					combo = 0;
 
 					//	スタン処理
@@ -161,6 +168,8 @@ void Player::Update(Input& input, Stage& stage)
 			if (dis >= maxR) {
 				dis = maxR;
 				hAttack = false;
+				explosion = true;
+				ex_pos = pos;
 				combo = 0;
 
 				//	スタン処理
@@ -210,7 +219,8 @@ void Player::Update(Input& input, Stage& stage)
 
 		if (dis <= minR) {
 			dis = minR;
-			stage.DamageCircle(combo);
+			ex_R = 30 + 10 * combo;
+			stage.DamageCircle(combo + 1);
 			hAttack = true;
 		}
 #pragma endregion
@@ -240,11 +250,19 @@ void Player::Draw()
 #pragma endregion
 	int color = 0xFFFFFF;
 	if (knockBack) color = 0xFF0000;
-	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f combo:%d", spd.x, dis, angle, combo);
+
+	int ex_color = 0x555555;
+	if (explosion) {
+		ex_color = 0xFF0000;
+	}
+	if(!hAttack)
+	DrawCircle(ex_pos.x, ex_pos.y, ex_R, ex_color);
 
 	Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
 	DrawLine(pos.x - c_center.x, pos.y - c_center.y, center.x, center.y, 0xFF0000);
 	DrawCircle(pos.x - c_center.x, pos.y - c_center.y, r, color);
+
+	DrawFormatString(10, 10, color, "spd:%f dis:%f angle:%f combo:%d", spd.x, dis, angle, combo);
 }
 
 void Player::KnockBack(Vector2& e_spd)
