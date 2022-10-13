@@ -23,13 +23,13 @@ EnemyManager::~EnemyManager()
 	}
 }
 
-void EnemyManager::update()
+void EnemyManager::update(Vector2 player)
 {
 	input.Update();
 
 	for (int i = 0; i < enemys.size(); i++)
 	{
-		enemys[i]->Update();
+		enemys[i]->Update(player);
 
 		if (input.GetTriggerKey(KEY_INPUT_R))
 		{

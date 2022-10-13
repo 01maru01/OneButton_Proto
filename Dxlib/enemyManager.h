@@ -10,7 +10,7 @@ public:
 	EnemyManager();
 	~EnemyManager();
 
-	void update();
+	void update(Vector2 player);
 
 	void draw();
 
@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name="WIN_WIDTH">画面サイズ横</param>
 	/// <param name="WIN_HEIGHT">画面サイズ縦</param>
-	void enemyPop(float WIN_WIDTH,float WIN_HEIGHT);
+	void enemyPop(float WIN_WIDTH, float WIN_HEIGHT);
 
 	//enemyをもらう関数
 	std::vector<Enemy*> getenemy();
@@ -28,7 +28,7 @@ private:
 	//enemyを持っているやつ
 	std::vector<Enemy*> enemys;
 
-	Input input;	
+	Input input;
 
 };
 
