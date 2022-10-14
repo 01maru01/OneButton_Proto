@@ -46,6 +46,9 @@ void Enemy::Initialize() {
 	spd = 0.04f;
 	angle = GetRandom(0.0f, 1.0f);
 	attackCount = 0;
+
+	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 }
 
 void Enemy::Draw() {
@@ -63,7 +66,7 @@ void Enemy::Update(Vector2 player) {
 
 		dis += 1.0f;
 
-		Attack();
+		//Attack();
 	}
 	else {
 		color = 0x00aaaa;
@@ -71,15 +74,15 @@ void Enemy::Update(Vector2 player) {
 		angle -= spd / (float)dis * 2 * PI;
 		if (angle >= 1) angle -= 1;
 
-		pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-		pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+		//pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+		//pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 
-		attackCount++;
+		/*attackCount++;
 
 		if (attackCount > 500) {
 			SetAttack(player);
 			color = 0xaaaa00;
-		}
+		}*/
 	}
 }
 
