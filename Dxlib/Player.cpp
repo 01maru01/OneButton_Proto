@@ -43,6 +43,12 @@ void Player::Update(Input& input, Stage& stage)
 
 	explosion = false;
 
+	int maxCombo = 15;
+	int num = combo;
+	if (combo > maxCombo) num = maxCombo;
+	num /= 5.0f;
+	maxSpd = 0.1f + num * 0.01f;
+
 #pragma region SetKcockBackSpd
 	if(input.GetTriggerKey(KEY_INPUT_Q)) {
 		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);

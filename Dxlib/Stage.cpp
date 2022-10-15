@@ -74,7 +74,7 @@ void Stage::Draw()
 
 	if (circle.isActive) {
 		DrawFormatString(WIN_WIDTH / 2 - 10, WIN_HEIGHT / 2, 0xFFFFFF, "%d", circle.life);
-		DrawFormatString(10, 20, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
+		DrawFormatString(10, 30, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
 		DrawCircle(x, y, minR - 20, 0xFFFFFF, false);
 	}
 
