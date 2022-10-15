@@ -6,6 +6,9 @@
 class Player
 {
 private:
+	bool prevOnStage;
+	bool onStage;
+
 	int r;
 	bool isLive;
 	Vector2 pos;

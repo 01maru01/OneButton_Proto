@@ -39,7 +39,13 @@ void Stage::Update()
 	}
 
 	if (circle.life <= 0) circle.isActive = false;
-	if (!circle.isActive) circle.feaverTimer--;
+	if (!circle.isActive) {
+		circle.feaverTimer--;
+
+		for (int i = 0; i < line.size(); i++) {
+			line[i].isActive = true;
+		}
+	}
 	if (circle.feaverTimer <= 0) {
 		circle.Init();
 	}
@@ -71,6 +77,10 @@ void Stage::Draw()
 		DrawFormatString(10, 20, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
 		DrawCircle(x, y, minR - 20, 0xFFFFFF, false);
 	}
+
+#pragma region ”ÍˆÍŠO
+	DrawCircle(x, y, maxR + 100, 0xFF0000, false);
+#pragma endregion
 }
 
 bool Stage::OnCollision(float angle, bool damage)
