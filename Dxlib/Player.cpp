@@ -253,18 +253,24 @@ void Player::Update(Input& input, Stage& stage)
 			}
 #pragma endregion
 		}
-	}
-
 #pragma region 速度処理
-	angle += spd.x / (float)dis * 2 * PI;
+		angle += spd.x / (float)dis * 2 * PI;
 #pragma endregion
 	
-	if (angle >= 1) angle -= 1;
+		if (angle >= 1) angle -= 1;
 	
 #pragma region 座標更新
-	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+		pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+		pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 #pragma endregion
+	}
+	else {
+		if (input.GetTriggerKey(KEY_INPUT_R)) {
+			stage.Resporn(angle);
+			dis = maxR;
+			isLive = true;
+		}
+	}
 }
 
 void Player::Draw()

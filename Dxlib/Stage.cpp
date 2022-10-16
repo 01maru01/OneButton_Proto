@@ -115,6 +115,25 @@ bool Stage::OnCollision(float angle, bool damage)
 	return line[indexL].isActive || line[indexR].isActive;
 }
 
+Vector2 Stage::Resporn(float& angle)
+{
+	int index = angle * line.size();
+	Vector2 ans;
+	int i = 0;
+	while (true) {
+		index++;
+		if (index >= line.size()) index = 0;
+		if (line[index].isActive) {
+			ans = line[index].pos1;
+			angle = index / (float)line.size();
+			break;
+		}
+		i++;
+		if (i > line.size()) break;
+	}
+	return ans;
+}
+
 void Line::Init(Vector2& _pos1, Vector2& _pos2)
 {
 	isActive = true;

@@ -43,5 +43,7 @@ public:
 	bool OnCollision(float angle, bool damage);
 	bool Feaver() { return !circle.isActive; }
 	void DamageCircle(int damage) { circle.life -= damage; }
+
+	Vector2 Resporn(float& angle);
 };
 
