@@ -10,6 +10,7 @@ static float deadR = 400.0f;
 void Player::RespornInit()
 {
 	dis = maxR;
+	prevDis = dis;
 	isLive = true;
 	hAttack = false;
 
@@ -33,6 +34,11 @@ void Player::SetComboSpd()
 
 Player::Player()
 {
+	level = 5;
+	lvMaxSpd.resize(level);
+	//for (int i = 0; i < lvMaxSpd.size(); i++) {
+	//	lvMaxSpd[i]=
+	//}
 	r = 16;
 	Init();
 }
@@ -51,6 +57,7 @@ void Player::Init()
 void Player::Update(Input& input, Stage& stage)
 {
 	prevOnStage = onStage;
+	prevDis = dis;
 
 	SetComboSpd();
 
@@ -226,6 +233,14 @@ void Player::Update(Input& input, Stage& stage)
 				isLive = false;
 			}
 #pragma endregion
+
+			if (dis == maxR && prevDis < maxR) {
+				if (stage.OnCollision(angle, true, combo)) {
+					dis = maxR;
+					combo = 0;
+					spd.y = 0.0f;
+				}
+			}
 		}
 
 #pragma region ‘¬“xˆ—
@@ -239,6 +254,7 @@ void Player::Update(Input& input, Stage& stage)
 #pragma endregion
 	}
 	else {
+#pragma region Resporn
 		if (input.GetTriggerKey(KEY_INPUT_R)) {
 			if (dis > deadR) {
 				stage.SetDeadAngle(angle);
@@ -248,6 +264,7 @@ void Player::Update(Input& input, Stage& stage)
 				RespornInit();
 			}
 		}
+#pragma endregion
 	}
 }
 

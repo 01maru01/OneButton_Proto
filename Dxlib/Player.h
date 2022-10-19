@@ -2,10 +2,15 @@
 #include "Input.h"
 #include "Vector2.h"
 #include "Stage.h"
+#include <vector>
 
 class Player
 {
 private:
+	std::vector<int> lvMaxSpd;
+
+	int level;
+
 	bool prevOnStage;
 	bool onStage;
 
@@ -13,6 +18,7 @@ private:
 	bool isLive;
 	Vector2 pos;
 	float dis;	//	プレイヤーと中心の距離
+	float prevDis;
 	float angle;
 	Vector2 spd;
 	float maxSpd;
