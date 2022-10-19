@@ -92,7 +92,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
 
 				if (enemyManeger.getenemy()[i]->GetAttackFlag()) {
-					Vector2 hozon = enemyManeger.getenemy()[i]->GetSpd();
+					Vector2 hozon = enemyManeger.getenemy()[i]->GetSpd(player.GetPos());
  					player.KnockBack(hozon);
 				}
 
