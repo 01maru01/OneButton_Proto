@@ -62,6 +62,9 @@ void Stage::Draw()
 			if (line[i].life <= 1) {
 				color = 0xFF0000;
 			}
+			if (line[i].life <= 0) {
+				color = 0x00FF00;
+			}
 			
 			Vector2 shakePos;
 			if (line[i].shake) {

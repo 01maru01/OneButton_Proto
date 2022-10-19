@@ -148,22 +148,24 @@ void Player::Update(Input& input, Stage& stage)
 					}
 				}
 				else {
-						dis += hAttackSpd;
-						if (dis >= maxR) {
+					dis += hAttackSpd;
+					if (dis >= maxR) {
+						if (stage.OnCollision(angle, true)) {
 							dis = maxR;
 							hAttack = false;
 							explosion = true;
-#pragma region 座標更新
-						ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-						ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
-#pragma endregion
-						combo = 0;
-
-						//	スタン処理
-						spd.x = 0;
-						stun = true;
-						stunTime = 10;
 						}
+#pragma region 座標更新
+					ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+					ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+#pragma endregion
+					combo = 0;
+
+					//	スタン処理
+					spd.x = 0;
+					stun = true;
+					stunTime = 10;
+					}
 				}
 			}
 #pragma endregion
