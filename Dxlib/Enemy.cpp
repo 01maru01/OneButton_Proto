@@ -139,6 +139,8 @@ Vector2 Enemy::GetSpd(Vector2 player) {
 	speedReturn.x *= -speed.x;
 	speedReturn.y *= -speed.y;
 
+	speedReturn.normalize();
+
 	/*if (pos.y < WIN_HEIGHT / 2) {
 		speedReturn.y = -speedReturn.y;
 	}*/
