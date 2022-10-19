@@ -11,7 +11,7 @@ bool CircleCollsion(Vector2 play, Vector2 ene) {
 	int a = (play.x - ene.x) * (play.x - ene.x);
 	int b = (play.y - ene.y) * (play.y - ene.y);
 
-	int c = 26 * 26;
+	int c = 26 * 26 ;
 
 	//‚ ‚½‚è”»’è
 	if (a + b < c)
@@ -75,7 +75,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		stage.Update();
 
 		time++;
-		if (time > 60) {
+		if (time > 80) {
 			time = 0;
 			enemyManeger.enemyPop(WIN_WIDTH, WIN_HEIGHT);
 		}

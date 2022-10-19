@@ -2,6 +2,25 @@
 #include <random>
 #include "DxLib.h"
 
+bool CircleCollsionEnemy(Vector2 enemy1, Vector2 enemy2) {
+
+	int a = (enemy1.x - enemy2.x) * (enemy1.x - enemy2.x);
+	int b = (enemy1.y - enemy2.y) * (enemy1.y - enemy2.y);
+
+	int c = 32 * 32;
+
+	//DrawCircle(enemy1.x, enemy1.y, 16, 0xaa0000, false);
+	//DrawCircle(enemy2.x, enemy2.y, 16, 0x00aa00, false);
+
+	//‚ ‚½‚è”»’è
+	if (a + b < c)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 int GetRandom(int min, int max)
 {
 	std::random_device rd;
@@ -56,7 +75,7 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	//‰¼‰«‚Ì’†g‚ðì‚é
 	Enemy* newEnemy = new Enemy();
 
-	int max = 200;
+	int max = 250;
 	int min = 100;
 
 	Vector2 Pos = {};
@@ -64,11 +83,30 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	int a = GetRandom(-max, max);
 	int b = GetRandom(-max, max);
 
-	while (a < min && a > -min && b < min && b > -min)
+	int count = 0;
+	do
 	{
+		count++;
+
 		a = GetRandom(-max, max);
 		b = GetRandom(-max, max);
-	}
+
+		Pos.x = WIN_WIDTH / 2.0f + a + (b / static_cast<float>(10));
+
+		Pos.y = WIN_HEIGHT / 2.0f + b + (a / static_cast <float>(10));
+
+		for (int i = 0; i < enemys.size(); i++)
+		{
+			if (CircleCollsionEnemy(enemys[i]->GetPos(), Pos) == true) {
+				a = min - 1;
+				b = min - 1;
+			}
+		}
+
+		if (count > 10)
+			break;
+
+	} while (a < min && a > -min && b < min && b > -min);
 
 	Pos.x = WIN_WIDTH / 2.0f + a + (b / static_cast<float>(10));
 

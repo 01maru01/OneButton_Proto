@@ -27,7 +27,7 @@ public:
 	Vector2 GetPos() { return pos; };
 	Vector2 GetSpd(Vector2 player);
 
-	void SetAttack(Vector2 player);
+	void SetAttack();
 	void Attack();
 
 	bool GetIsDied() { return isDied; };
