@@ -44,7 +44,8 @@ void Enemy::Initialize() {
 	playerPos = { 0,0 };
 	maxSpd = 0.1f;
 	spd = 0.04f;
-	angle = GetRandom(0.0f, 1.0f);
+	angle = angle += spd / (float)dis * 2 * PI;
+	//angle = GetRandom(0.0f, 1.0f);
 	attackCount = 0;
 
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
@@ -61,28 +62,28 @@ void Enemy::Update(Vector2 player) {
 		color = 0xaaaa00;
 		spd = 0.02;
 
-		angle -= spd / (float)dis * 2 * PI;
-		if (angle >= 1) angle -= 1;
+		/*angle += spd / (float)dis * 2 * PI;
+		if (angle >= 1) angle -= 1;*/
 
-		dis += 1.0f;
+		/*dis += 1.0f;*/
 
-		//Attack();
+		Attack();
 	}
 	else {
 		color = 0x00aaaa;
 
-		angle -= spd / (float)dis * 2 * PI;
-		if (angle >= 1) angle -= 1;
+		/*angle += spd / (float)dis * 2 * PI;
+		if (angle >= 1) angle -= 1;*/
 
-		//pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-		//pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+		/*pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+		pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;*/
 
-		/*attackCount++;
+		attackCount++;
 
 		if (attackCount > 500) {
 			SetAttack(player);
 			color = 0xaaaa00;
-		}*/
+		}
 	}
 }
 
@@ -112,21 +113,35 @@ void Enemy::SetAttack(Vector2 player) {
 
 void Enemy::Attack() {
 
-	dis += 0.5f;
+	/*dis += 0.5f;
 	if (dis > 300 || dis < -300)
 	{
 		isDied = true;
 	}
 
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;*/
 }
 
-Vector2 Enemy::GetSpd() {
+Vector2 Enemy::GetSpd(Vector2 player) {
 	Vector2 speed;
+	Vector2 speedReturn;
 
-	speed.x = 5.0f * cos(angle * PI * 2);
-	speed.y = 5.0f * sin(angle * PI * 2);
+	speed = pos - player;
+	speed.normalize();
 
-	return speed;
+	speedReturn.x = 3.0f;
+	speedReturn.y = 3.0f;
+
+	/*speedR.x = 5.0f * cos(angle * PI * 2);
+	speedR.y = 5.0f * sin(angle * PI * 2);*/
+
+	speedReturn.x *= -speed.x;
+	speedReturn.y *= -speed.y;
+
+	/*if (pos.y < WIN_HEIGHT / 2) {
+		speedReturn.y = -speedReturn.y;
+	}*/
+
+	return speedReturn;
 }
