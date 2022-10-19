@@ -56,16 +56,16 @@ void Player::Update(Input& input, Stage& stage)
 	maxSpd = 0.1f + num * 0.01f;
 
 #pragma region SetKcockBackSpd
-	if(input.GetTriggerKey(KEY_INPUT_Q)) {
-		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
-		KnockBack(e_spd);
-	}
-	if(input.GetTriggerKey(KEY_INPUT_E)&&isLive) {
-		Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
-		KnockBack(e_spd);
-		backSpd.x = 0.0f;
-		backSpd.y = 100.0f;
-	}
+	//if(input.GetTriggerKey(KEY_INPUT_Q)) {
+	//	Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
+	//	KnockBack(e_spd);
+	//}
+	//if(input.GetTriggerKey(KEY_INPUT_E)&&isLive) {
+	//	Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
+	//	KnockBack(e_spd);
+	//	backSpd.x = 0.0f;
+	//	backSpd.y = 100.0f;
+	//}
 #pragma endregion
 
 	if (isLive) {
@@ -106,7 +106,7 @@ void Player::Update(Input& input, Stage& stage)
 			dis += backSpd.y;
 
 			if (dis >= maxR) {
-				if (stage.OnCollision(angle, Damage(), combo)) {
+				if (stage.OnCollision(angle, false, combo)) {
 					dis = maxR;
 					combo = 0;
 				}
@@ -118,8 +118,8 @@ void Player::Update(Input& input, Stage& stage)
 				//	ダメージ
 				damage = true;
 				knockBack = false;
-				stun = true;
-				stunTime = 10;
+				//stun = true;
+				//stunTime = 10;
 			}
 		
 			if (kbTime <= 0 && spd.x > maxSpd) {
@@ -163,8 +163,8 @@ void Player::Update(Input& input, Stage& stage)
 
 					//	スタン処理
 					spd.x = 0;
-					stun = true;
-					stunTime = 10;
+					//stun = true;
+					//stunTime = 10;
 					}
 				}
 			}
@@ -202,8 +202,8 @@ void Player::Update(Input& input, Stage& stage)
 
 						//	スタン処理
 						spd.x = 0;
-						stun = true;
-						stunTime = 10;
+						//stun = true;
+						//stunTime = 10;
 					}
 					else {
 						//	強攻撃中に穴に落ちた処理

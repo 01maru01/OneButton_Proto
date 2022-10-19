@@ -59,10 +59,10 @@ void Stage::Draw()
 			if (line[i].life <= 0) {
 				color = 0x00FF00;
 			}
-			else if (line[i].life <= 3) {
+			else if (line[i].life <= 1) {
 				color = 0xFF0000;
 			}
-			else if (line[i].life <= 7) {
+			else if (line[i].life <= 3) {
 				color = 0x888888;
 			}
 			
@@ -100,11 +100,11 @@ bool Stage::OnCollision(float angle, bool damage, int combo)
 	if (indexR >= line.size()) indexR -= line.size();
 
 	if (damage) {
-		line[indexL].life -= combo;
+		line[indexL].life -= combo + 1;
 		line[indexL].shake = true;
 		line[indexL].shakeTime = 60;
 		if (indexL != indexR) {
-			line[indexR].life -= combo;
+			line[indexR].life -= combo + 1;
 			line[indexR].shake = true;
 			line[indexR].shakeTime = 60;
 		}
@@ -143,7 +143,7 @@ void Stage::SetDeadAngle(float& angle)
 void Line::Init(Vector2& _pos1, Vector2& _pos2)
 {
 	isActive = true;
-	life = 10;
+	life = 5;
 	activeTime = 60;
 	flashing = false;
 

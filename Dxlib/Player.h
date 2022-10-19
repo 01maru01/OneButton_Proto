@@ -50,7 +50,10 @@ public:
 	void Draw();
 	void KnockBack(Vector2& e_spd);
 	bool Damage();
-	Vector2 GetPos() { return pos; };
+	Vector2 GetPos() {
+		Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
+		return pos - c_center;
+	};
 	void AddCombo() { combo++; }
 };
 
