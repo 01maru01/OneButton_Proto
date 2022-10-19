@@ -56,14 +56,14 @@ void Stage::Draw()
 	for (int i = 0; i < line.size(); i++) {
 		int color = 0xFFFFFF;
 		if (line[i].isActive) {
-			if (line[i].life == 2) {
-				color = 0x888888;
-			}
-			if (line[i].life <= 1) {
-				color = 0xFF0000;
-			}
 			if (line[i].life <= 0) {
 				color = 0x00FF00;
+			}
+			else if (line[i].life <= 3) {
+				color = 0xFF0000;
+			}
+			else if (line[i].life <= 7) {
+				color = 0x888888;
 			}
 			
 			Vector2 shakePos;
@@ -86,7 +86,7 @@ void Stage::Draw()
 #pragma endregion
 }
 
-bool Stage::OnCollision(float angle, bool damage)
+bool Stage::OnCollision(float angle, bool damage, int combo)
 {
 	float p_size = 10.0f;
 	float circleLenght = maxR * 2 * PI;
@@ -100,11 +100,11 @@ bool Stage::OnCollision(float angle, bool damage)
 	if (indexR >= line.size()) indexR -= line.size();
 
 	if (damage) {
-		line[indexL].life--;
+		line[indexL].life -= combo;
 		line[indexL].shake = true;
 		line[indexL].shakeTime = 60;
 		if (indexL != indexR) {
-			line[indexR].life--;
+			line[indexR].life -= combo;
 			line[indexR].shake = true;
 			line[indexR].shakeTime = 60;
 		}
@@ -143,7 +143,7 @@ void Stage::SetDeadAngle(float& angle)
 void Line::Init(Vector2& _pos1, Vector2& _pos2)
 {
 	isActive = true;
-	life = 3;
+	life = 10;
 	activeTime = 60;
 	flashing = false;
 

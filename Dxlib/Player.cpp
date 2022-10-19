@@ -106,7 +106,7 @@ void Player::Update(Input& input, Stage& stage)
 			dis += backSpd.y;
 
 			if (dis >= maxR) {
-				if (stage.OnCollision(angle, Damage())) {
+				if (stage.OnCollision(angle, Damage(), combo)) {
 					dis = maxR;
 					combo = 0;
 				}
@@ -150,7 +150,7 @@ void Player::Update(Input& input, Stage& stage)
 				else {
 					dis += hAttackSpd;
 					if (dis >= maxR) {
-						if (stage.OnCollision(angle, true)) {
+						if (stage.OnCollision(angle, true, combo)) {
 							dis = maxR;
 							hAttack = false;
 							explosion = true;
@@ -190,7 +190,7 @@ void Player::Update(Input& input, Stage& stage)
 				hAttackSpd += 1.0f;
 				dis += hAttackSpd;
 				if (dis >= maxR) {
-					if (stage.OnCollision(angle, true)) {
+					if (stage.OnCollision(angle, true, combo)) {
 						dis = maxR;
 						hAttack = false;
 						explosion = true;
@@ -229,7 +229,7 @@ void Player::Update(Input& input, Stage& stage)
 
 #pragma region Dis”ÍˆÍ§ŒÀ
 			if (dis >= maxR) {
-				if (stage.OnCollision(angle, false)) {
+				if (stage.OnCollision(angle, false, combo)) {
 					dis = maxR;
 					combo = 0;
 					spd.y = 0.0f;
@@ -245,7 +245,7 @@ void Player::Update(Input& input, Stage& stage)
 			}
 #pragma endregion
 
-			if (stage.OnCollision(angle + spd.x / (float)dis * 2 * PI, false)) {
+			if (stage.OnCollision(angle + spd.x / (float)dis * 2 * PI, false, combo)) {
 				onStage = true;
 			}
 			else {

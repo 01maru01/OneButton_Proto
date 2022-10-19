@@ -41,7 +41,7 @@ public:
 	Stage();
 	void Update();
 	void Draw();
-	bool OnCollision(float angle, bool damage);
+	bool OnCollision(float angle, bool damage, int combo);
 	bool Feaver() { return !circle.isActive; }
 	void DamageCircle(int damage) { circle.life -= damage; }
 
