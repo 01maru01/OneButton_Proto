@@ -15,7 +15,7 @@ bool Enemy::CircleCollsionE(Vector2 ene, Vector2 play) {
 	int a = (play.x - enemy.x) * (play.x - enemy.x);
 	int b = (play.y - enemy.y) * (play.y - enemy.y);
 
-	int c = (26 + search) * (26 + search);
+	int c = 26 * 26;
 
 	//DrawCircle(enemy.x, enemy.y, radias + search, color, false);
 
@@ -59,18 +59,18 @@ void Enemy::Draw() {
 void Enemy::Update(Vector2 player) {
 
 	if (attackFlag) {
-		color = 0xaaaa00;
+		//color = 0xaaaa00;
 		spd = 0.02;
-
+		attackCount = 765;
 		/*angle += spd / (float)dis * 2 * PI;
 		if (angle >= 1) angle -= 1;*/
 
 		/*dis += 1.0f;*/
 
-		Attack();
+		//Attack();
 	}
 	else {
-		color = 0x00aaaa;
+		//color = 0x00aaaa;
 
 		/*angle += spd / (float)dis * 2 * PI;
 		if (angle >= 1) angle -= 1;*/
@@ -80,11 +80,13 @@ void Enemy::Update(Vector2 player) {
 
 		attackCount++;
 
-		if (attackCount > 500) {
-			SetAttack(player);
-			color = 0xaaaa00;
+		if (attackCount > 764) {
+			SetAttack();
+			//color = 0xaaaa00;
 		}
 	}
+	color = GetColor(attackCount / 3,150, attackCount / 3);
+
 }
 
 void Enemy::SetPos(Vector2 Pos)
@@ -102,12 +104,10 @@ void Enemy::OnCollsion()
 	isDied = true;
 }
 
-void Enemy::SetAttack(Vector2 player) {
+void Enemy::SetAttack() {
 	if (attackFlag != true) {
-		if (CircleCollsionE(pos, player)) {
 			attackFlag = true;
-			playerPos = player;
-		}
+			//playerPos = player;
 	}
 }
 
@@ -130,8 +130,8 @@ Vector2 Enemy::GetSpd(Vector2 player) {
 	speed = pos - player;
 	speed.normalize();
 
-	speedReturn.x = 3.0f;
-	speedReturn.y = 3.0f;
+	speedReturn.x = 5.0f;
+	speedReturn.y = 5.0f;
 
 	/*speedR.x = 5.0f * cos(angle * PI * 2);
 	speedR.y = 5.0f * sin(angle * PI * 2);*/
