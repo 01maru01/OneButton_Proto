@@ -3,28 +3,37 @@
 #include "main.h"
 #include <cmath>
 
+static float minR = 100.0f;
+static float maxR = 300.0f;
+static float deadR = 400.0f;
+
 void Player::RespornInit()
 {
-	dis = 300.0f;
+	dis = maxR;
 	isLive = true;
 	hAttack = false;
 
 	knockBack = false;
 	kbTime = 0;
 
-	damage = false;
-
 	stun = false;
 	stunTime = 0;
 
 	combo = 0;
+}
 
-	explosion = false;
-	ex_R = 0;
+void Player::SetComboSpd()
+{
+	int maxCombo = 15;
+	int num = combo;
+	if (combo > maxCombo) num = maxCombo;
+	num /= 5.0f;
+	maxSpd = 0.1f + num * 0.01f;
 }
 
 Player::Player()
 {
+	r = 16;
 	Init();
 }
 
@@ -32,7 +41,6 @@ void Player::Init()
 {
 	onStage = false;
 	prevOnStage = false;
-	r = 16;
 	maxSpd = 0.1f;
 	minSpd = 0.05f;
 	angle = 0.0f;
@@ -44,29 +52,7 @@ void Player::Update(Input& input, Stage& stage)
 {
 	prevOnStage = onStage;
 
-	float minR = 100.0f;
-	float maxR = 300.0f;
-
-	explosion = false;
-
-	int maxCombo = 15;
-	int num = combo;
-	if (combo > maxCombo) num = maxCombo;
-	num /= 5.0f;
-	maxSpd = 0.1f + num * 0.01f;
-
-#pragma region SetKcockBackSpd
-	//if(input.GetTriggerKey(KEY_INPUT_Q)) {
-	//	Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
-	//	KnockBack(e_spd);
-	//}
-	//if(input.GetTriggerKey(KEY_INPUT_E)&&isLive) {
-	//	Vector2 e_spd(GetRand(10) - 5, GetRand(10) - 5);
-	//	KnockBack(e_spd);
-	//	backSpd.x = 0.0f;
-	//	backSpd.y = 100.0f;
-	//}
-#pragma endregion
+	SetComboSpd();
 
 	if (isLive) {
 #pragma region スタン
@@ -110,13 +96,6 @@ void Player::Update(Input& input, Stage& stage)
 					dis = maxR;
 					combo = 0;
 				}
-				else {
-					//	変更必須
-					isLive = false;
-					dis = maxR;
-				}
-				//	ダメージ
-				damage = true;
 				knockBack = false;
 				//stun = true;
 				//stunTime = 10;
@@ -153,12 +132,7 @@ void Player::Update(Input& input, Stage& stage)
 						if (stage.OnCollision(angle, true, combo)) {
 							dis = maxR;
 							hAttack = false;
-							explosion = true;
 						}
-#pragma region 座標更新
-					ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-					ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
-#pragma endregion
 					combo = 0;
 
 					//	スタン処理
@@ -170,18 +144,14 @@ void Player::Update(Input& input, Stage& stage)
 			}
 #pragma endregion
 
-#pragma region キー入力
-			if (isLive) {
-				if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
-					hAttack = true;
-					hAttackHalf = false;
-					hAttackSpd = 20.0f;
-				}
-			}
-#pragma endregion
+			stage.EndFeaver(hAttack);
 
-#pragma region 速度処理
-			angle += spd.x / (float)maxR * 2 * PI;
+#pragma region キー入力
+			if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
+				hAttack = true;
+				hAttackHalf = false;
+				hAttackSpd = 20.0f;
+			}
 #pragma endregion
 		}
 		else {
@@ -193,20 +163,12 @@ void Player::Update(Input& input, Stage& stage)
 					if (stage.OnCollision(angle, true, combo)) {
 						dis = maxR;
 						hAttack = false;
-						explosion = true;
-#pragma region 座標更新
-						ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-						ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
-#pragma endregion
 						combo = 0;
 
 						//	スタン処理
 						spd.x = 0;
 						//stun = true;
 						//stunTime = 10;
-					}
-					else {
-						//	強攻撃中に穴に落ちた処理
 					}
 				}
 			}
@@ -229,7 +191,7 @@ void Player::Update(Input& input, Stage& stage)
 
 #pragma region Dis範囲制限
 			if (dis >= maxR) {
-				if (stage.OnCollision(angle, false, combo)) {
+				if (stage.OnCollision(angle, false)) {
 					dis = maxR;
 					combo = 0;
 					spd.y = 0.0f;
@@ -237,20 +199,21 @@ void Player::Update(Input& input, Stage& stage)
 			}
 
 			if (dis <= minR) {
-				dis = minR;
-				ex_R = 30 + 10 * combo;
 				stage.DamageCircle(1);
+				dis = minR;
 				hAttack = true;
 				hAttackSpd = 20.0f;
 			}
 #pragma endregion
 
+#pragma region SetOnStage
 			if (stage.OnCollision(angle + spd.x / (float)dis * 2 * PI, false, combo)) {
 				onStage = true;
 			}
 			else {
 				onStage = false;
 			}
+#pragma endregion
 
 #pragma region 死亡
 			if (onStage == true && prevOnStage == false && dis > maxR + r * 2) {
@@ -264,10 +227,10 @@ void Player::Update(Input& input, Stage& stage)
 			}
 #pragma endregion
 		}
+
 #pragma region 速度処理
 		angle += spd.x / (float)dis * 2 * PI;
 #pragma endregion
-	
 		if (angle >= 1) angle -= 1;
 	
 #pragma region 座標更新
@@ -277,8 +240,13 @@ void Player::Update(Input& input, Stage& stage)
 	}
 	else {
 		if (input.GetTriggerKey(KEY_INPUT_R)) {
-			RespornInit();
-			stage.Resporn();
+			if (dis > deadR) {
+				stage.SetDeadAngle(angle);
+				RespornInit();
+			}
+			else {
+				RespornInit();
+			}
 		}
 	}
 }
@@ -297,11 +265,6 @@ void Player::Draw()
 	if (knockBack) color = 0xFF0000;
 
 	int ex_color = 0x555555;
-	if (explosion) {
-		ex_color = 0xFF0000;
-	}
-	if(!hAttack)
-	DrawCircle(ex_pos.x, ex_pos.y, ex_R, ex_color);
 
 	Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
 	DrawLine(pos.x - c_center.x, pos.y - c_center.y, center.x, center.y, 0xFF0000);
@@ -329,13 +292,4 @@ void Player::KnockBack(Vector2& e_spd)
 	kbTime = 20;
 
 	backSpd /= kbTime;
-}
-
-bool Player::Damage()
-{
-	if (damage) {
-		damage = false;
-		return true;
-	}
-	return false;
 }

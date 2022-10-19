@@ -36,16 +36,15 @@ private:
 	SmallCircle circle;
 
 	int idx = 0;
-	Vector2 respornPos;
 public:
 	Stage();
 	void Update();
 	void Draw();
-	bool OnCollision(float angle, bool damage, int combo);
+	bool OnCollision(float angle, bool damage, int combo = 0);
 	bool Feaver() { return !circle.isActive; }
+	void EndFeaver(bool hAttack);
 	void DamageCircle(int damage) { circle.life -= damage; }
 
-	Vector2 Resporn();
 	void SetDeadAngle(float& angle);
 };
 

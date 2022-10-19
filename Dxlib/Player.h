@@ -22,13 +22,6 @@ private:
 	bool hAttack;	//	強攻撃フラグ
 	bool hAttackHalf;	//	feaver用
 	float hAttackSpd;
-	//	爆発
-	bool explosion;
-	Vector2 ex_pos;
-	int ex_R;
-
-	//	ダメージ
-	bool damage;
 
 	//	スタン
 	bool stun;
@@ -43,13 +36,13 @@ private:
 	int combo;
 
 	void RespornInit();
+	void SetComboSpd();
 public:
 	Player();
 	void Init();
 	void Update(Input& input, Stage& stage);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
-	bool Damage();
 	Vector2 GetPos() {
 		Vector2 c_center(r * cos(angle * PI * 2), r * sin(angle * PI * 2));
 		return pos - c_center;

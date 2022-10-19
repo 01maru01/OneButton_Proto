@@ -46,9 +46,6 @@ void Stage::Update()
 			line[i].isActive = true;
 		}
 	}
-	if (circle.feaverTimer <= 0) {
-		circle.Init();
-	}
 }
 
 void Stage::Draw()
@@ -118,9 +115,11 @@ bool Stage::OnCollision(float angle, bool damage, int combo)
 	return line[indexL].isActive || line[indexR].isActive;
 }
 
-Vector2 Stage::Resporn()
+void Stage::EndFeaver(bool hAttack)
 {
-	return respornPos;
+	if (circle.feaverTimer <= 0 && !hAttack) {
+		circle.Init();
+	}
 }
 
 void Stage::SetDeadAngle(float& angle)
@@ -131,7 +130,6 @@ void Stage::SetDeadAngle(float& angle)
 		index++;
 		if (index >= line.size()) index = 0;
 		if (line[index].isActive) {
-			respornPos = line[index].pos1;
 			angle = index / (float)line.size();
 			break;
 		}
