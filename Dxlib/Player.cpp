@@ -3,22 +3,11 @@
 #include "main.h"
 #include <cmath>
 
-Player::Player()
+void Player::RespornInit()
 {
-	Init();
-}
-
-void Player::Init()
-{
-	onStage = false;
-	prevOnStage = false;
-	r = 10;
+	dis = 300.0f;
 	isLive = true;
 	hAttack = false;
-	maxSpd = 0.1f;
-	minSpd = 0.05f;
-	angle = 0.0f;
-	dis = 300.0f;
 
 	knockBack = false;
 	kbTime = 0;
@@ -32,6 +21,23 @@ void Player::Init()
 
 	explosion = false;
 	ex_R = 0;
+}
+
+Player::Player()
+{
+	Init();
+}
+
+void Player::Init()
+{
+	onStage = false;
+	prevOnStage = false;
+	r = 10;
+	maxSpd = 0.1f;
+	minSpd = 0.05f;
+	angle = 0.0f;
+
+	RespornInit();
 }
 
 void Player::Update(Input& input, Stage& stage)
@@ -130,52 +136,52 @@ void Player::Update(Input& input, Stage& stage)
 
 		if (stage.Feaver()) {
 #pragma region heavyAttack
-		if (hAttack) {
-			hAttackSpd += 5.0f;
-			if (!hAttackHalf) {
-				dis -= hAttackSpd;
-				if (dis < 0) {
-					dis = abs(dis);
-					angle += 0.5f;
-					if (angle >= 1) angle -= 1;
-					hAttackHalf = true;
+			if (hAttack) {
+				hAttackSpd += 5.0f;
+				if (!hAttackHalf) {
+					dis -= hAttackSpd;
+					if (dis < 0) {
+						dis = abs(dis);
+						angle += 0.5f;
+						if (angle >= 1) angle -= 1;
+						hAttackHalf = true;
+					}
 				}
-			}
-			else {
-				dis += hAttackSpd;
-				if (dis >= maxR) {
-					dis = maxR;
-					hAttack = false;
-					explosion = true;
+				else {
+						dis += hAttackSpd;
+						if (dis >= maxR) {
+							dis = maxR;
+							hAttack = false;
+							explosion = true;
 #pragma region 座標更新
-					ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
-					ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+						ex_pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+						ex_pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 #pragma endregion
-					combo = 0;
+						combo = 0;
 
-					//	スタン処理
-					spd.x = 0;
-					stun = true;
-					stunTime = 10;
+						//	スタン処理
+						spd.x = 0;
+						stun = true;
+						stunTime = 10;
+						}
 				}
 			}
-		}
 #pragma endregion
 
 #pragma region キー入力
-		if (isLive) {
-			if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
-				hAttack = true;
-				hAttackHalf = false;
-				hAttackSpd = 20.0f;
+			if (isLive) {
+				if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
+					hAttack = true;
+					hAttackHalf = false;
+					hAttackSpd = 20.0f;
+				}
 			}
-		}
 #pragma endregion
 
 #pragma region 速度処理
-		angle += spd.x / (float)maxR * 2 * PI;
+			angle += spd.x / (float)maxR * 2 * PI;
 #pragma endregion
-	}
+		}
 		else {
 #pragma region heavyAttack
 			if (hAttack) {
@@ -246,6 +252,9 @@ void Player::Update(Input& input, Stage& stage)
 
 #pragma region 死亡
 			if (onStage == true && prevOnStage == false && dis > maxR) {
+				stage.SetDeadAngle(angle);
+				pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
+				pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 				isLive = false;
 			}
 			if (dis > maxR + 100) {
@@ -266,9 +275,8 @@ void Player::Update(Input& input, Stage& stage)
 	}
 	else {
 		if (input.GetTriggerKey(KEY_INPUT_R)) {
-			stage.Resporn(angle);
-			dis = maxR;
-			isLive = true;
+			RespornInit();
+			stage.Resporn();
 		}
 	}
 }

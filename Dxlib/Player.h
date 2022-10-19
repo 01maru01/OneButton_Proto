@@ -41,6 +41,8 @@ private:
 
 	//	combo
 	int combo;
+
+	void RespornInit();
 public:
 	Player();
 	void Init();

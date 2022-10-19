@@ -12,7 +12,7 @@ Stage::Stage()
 
 	clearNum = 5;
 
-	line.resize(10);
+	line.resize(30);
 	for (int i = 0; i < line.size(); i++) {
 		float angle1 = i / (float)line.size() * 2 * PI;
 		float angle2 = (i + 1) / (float)line.size() * 2 * PI;
@@ -115,23 +115,26 @@ bool Stage::OnCollision(float angle, bool damage)
 	return line[indexL].isActive || line[indexR].isActive;
 }
 
-Vector2 Stage::Resporn(float& angle)
+Vector2 Stage::Resporn()
+{
+	return respornPos;
+}
+
+void Stage::SetDeadAngle(float& angle)
 {
 	int index = angle * line.size();
-	Vector2 ans;
 	int i = 0;
 	while (true) {
 		index++;
 		if (index >= line.size()) index = 0;
 		if (line[index].isActive) {
-			ans = line[index].pos1;
+			respornPos = line[index].pos1;
 			angle = index / (float)line.size();
 			break;
 		}
 		i++;
 		if (i > line.size()) break;
 	}
-	return ans;
 }
 
 void Line::Init(Vector2& _pos1, Vector2& _pos2)

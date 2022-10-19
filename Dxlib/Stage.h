@@ -36,6 +36,7 @@ private:
 	SmallCircle circle;
 
 	int idx = 0;
+	Vector2 respornPos;
 public:
 	Stage();
 	void Update();
@@ -44,6 +45,7 @@ public:
 	bool Feaver() { return !circle.isActive; }
 	void DamageCircle(int damage) { circle.life -= damage; }
 
-	Vector2 Resporn(float& angle);
+	Vector2 Resporn();
+	void SetDeadAngle(float& angle);
 };
 
