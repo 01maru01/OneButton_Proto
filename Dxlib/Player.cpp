@@ -32,7 +32,7 @@ void Player::Init()
 {
 	onStage = false;
 	prevOnStage = false;
-	r = 10;
+	r = 16;
 	maxSpd = 0.1f;
 	minSpd = 0.05f;
 	angle = 0.0f;
@@ -253,7 +253,7 @@ void Player::Update(Input& input, Stage& stage)
 			}
 
 #pragma region Ž€–S
-			if (onStage == true && prevOnStage == false && dis > maxR) {
+			if (onStage == true && prevOnStage == false && dis > maxR + r * 2) {
 				stage.SetDeadAngle(angle);
 				pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 				pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
