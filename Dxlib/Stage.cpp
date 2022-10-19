@@ -76,9 +76,9 @@ void Stage::Draw()
 
 	if (circle.isActive) {
 		DrawFormatString(WIN_WIDTH / 2 - 10, WIN_HEIGHT / 2, 0xFFFFFF, "%d", circle.life);
-		DrawFormatString(10, 30, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
 		DrawCircle(x, y, minR - 32, 0xFFFFFF, false);
 	}
+	DrawFormatString(10, 30, 0xFFFFFF, "Clear‚Ü‚Å:%d", clearNum);
 
 #pragma region ”ÍˆÍŠO
 	DrawCircle(x, y, maxR + 100, 0xFF0000, false);
@@ -121,6 +121,13 @@ void Stage::EndFeaver(bool hAttack)
 {
 	if (circle.feaverTimer <= 0 && !hAttack) {
 		circle.Init();
+
+
+		for (int i = 0; i < line.size(); i++) {
+			if (line[i].activeTime <= 0 && line[i].isActive) {
+				line[i].isActive = false;
+			}
+		}
 	}
 }
 
