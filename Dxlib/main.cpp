@@ -54,8 +54,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-	Player player;
 	Stage stage;
+	Player player(&stage);
 	Input input;
 	EnemyManager enemyManeger;
 
@@ -70,7 +70,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		player.Update(input, stage);
+		player.Update(input);
 
 		stage.Update();
 

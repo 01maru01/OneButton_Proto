@@ -3,13 +3,11 @@
 #include "main.h"
 #include <cmath>
 
-static float minR = 100.0f;
-static float maxR = 300.0f;
 static float deadR = 400.0f;
 
 void Player::RespornInit()
 {
-	dis = maxR;
+	dis = stage->GetMaxR();
 	prevDis = dis;
 	isLive = true;
 	hAttack = false;
@@ -28,17 +26,18 @@ void Player::SetComboSpd()
 	int maxCombo = 15;
 	int num = combo;
 	if (combo > maxCombo) num = maxCombo;
-	num /= 5.0f;
-	maxSpd = 0.1f + num * 0.01f;
+	num /= 3.0f;
+	maxSpd = 0.1f + num * 0.03f;
 }
 
-Player::Player()
+Player::Player(Stage* stage_)
 {
-	level = 5;
-	lvMaxSpd.resize(level);
-	//for (int i = 0; i < lvMaxSpd.size(); i++) {
-	//	lvMaxSpd[i]=
-	//}
+	stage = stage_;
+	level = 0;
+	lvMaxSpd.resize(MaxLv);
+	for (int i = 0; i < lvMaxSpd.size(); i++) {
+		lvMaxSpd[i] = 0.1f + i * 0.03f;
+	}
 	r = 16;
 	Init();
 }
@@ -54,7 +53,7 @@ void Player::Init()
 	RespornInit();
 }
 
-void Player::Update(Input& input, Stage& stage)
+void Player::Update(Input& input)
 {
 	prevOnStage = onStage;
 	prevDis = dis;
@@ -73,7 +72,7 @@ void Player::Update(Input& input, Stage& stage)
 		if (!knockBack && !stun) {
 			spd.x += 0.01f;
 
-			if (dis == maxR && !stage.Feaver()) {
+			if (dis == stage->GetMaxR() && !stage->Feaver()) {
 				//	壁ずり(Feaver中はなし)
 				if (spd.x > minSpd) {
 					spd.x -= 0.015f;
@@ -98,9 +97,9 @@ void Player::Update(Input& input, Stage& stage)
 			if (kbTime <= 0) backSpd.y = 0.0f;
 			dis += backSpd.y;
 
-			if (dis >= maxR) {
-				if (stage.OnCollision(angle, false, combo)) {
-					dis = maxR;
+			if (dis >= stage->GetMaxR()) {
+				if (stage->OnCollision(angle, false, combo)) {
+					dis = stage->GetMaxR();
 					combo = 0;
 				}
 				knockBack = false;
@@ -120,7 +119,7 @@ void Player::Update(Input& input, Stage& stage)
 		}
 #pragma endregion
 
-		if (stage.Feaver()) {
+		if (stage->Feaver()) {
 #pragma region heavyAttack
 			if (hAttack) {
 				hAttackSpd += 5.0f;
@@ -135,9 +134,9 @@ void Player::Update(Input& input, Stage& stage)
 				}
 				else {
 					dis += hAttackSpd;
-					if (dis >= maxR) {
-						if (stage.OnCollision(angle, true, combo)) {
-							dis = maxR;
+					if (dis >= stage->GetMaxR()) {
+						if (stage->OnCollision(angle, true, combo)) {
+							dis = stage->GetMaxR();
 							hAttack = false;
 						}
 					combo = 0;
@@ -151,7 +150,7 @@ void Player::Update(Input& input, Stage& stage)
 			}
 #pragma endregion
 
-			stage.EndFeaver(hAttack);
+			stage->EndFeaver(hAttack);
 
 #pragma region キー入力
 			if (input.GetTriggerKey(KEY_INPUT_SPACE) && !hAttack) {
@@ -166,9 +165,9 @@ void Player::Update(Input& input, Stage& stage)
 			if (hAttack) {
 				hAttackSpd += 1.0f;
 				dis += hAttackSpd;
-				if (dis >= maxR) {
-					if (stage.OnCollision(angle, true, combo)) {
-						dis = maxR;
+				if (dis >= stage->GetMaxR()) {
+					if (stage->OnCollision(angle, true, combo)) {
+						dis = stage->GetMaxR();
 						hAttack = false;
 						combo = 0;
 
@@ -197,24 +196,24 @@ void Player::Update(Input& input, Stage& stage)
 #pragma endregion
 
 #pragma region Dis範囲制限
-			if (dis >= maxR) {
-				if (stage.OnCollision(angle, false)) {
-					dis = maxR;
+			if (dis >= stage->GetMaxR()) {
+				if (stage->OnCollision(angle, false)) {
+					dis = stage->GetMaxR();
 					combo = 0;
 					spd.y = 0.0f;
 				}
 			}
 
-			if (dis <= minR) {
-				stage.DamageCircle(1);
-				dis = minR;
+			if (dis <= stage->GetMinR()) {
+				stage->DamageCircle(1);
+				dis = stage->GetMinR();
 				hAttack = true;
 				hAttackSpd = 20.0f;
 			}
 #pragma endregion
 
 #pragma region SetOnStage
-			if (stage.OnCollision(angle + spd.x / (float)dis * 2 * PI, false, combo)) {
+			if (stage->OnCollision(angle + spd.x / (float)dis * 2 * PI, false, combo)) {
 				onStage = true;
 			}
 			else {
@@ -223,23 +222,26 @@ void Player::Update(Input& input, Stage& stage)
 #pragma endregion
 
 #pragma region 死亡
-			if (onStage == true && prevOnStage == false && dis > maxR + r * 2) {
-				stage.SetDeadAngle(angle);
+			if (onStage == true && prevOnStage == false && dis > stage->GetMaxR() + r * 2) {
+				stage->SetDeadAngle(angle);
 				pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 				pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
 				isLive = false;
 			}
-			if (dis > maxR + 100) {
+			if (dis > stage->GetMaxR() + 100) {
 				isLive = false;
 			}
 #pragma endregion
 
-			if (dis == maxR && prevDis < maxR) {
-				if (stage.OnCollision(angle, true, combo)) {
-					dis = maxR;
+			if (dis == stage->GetMaxR() && prevDis < stage->GetMaxR()) {
+				if (stage->OnCollision(angle, true, combo)) {
+					dis = stage->GetMaxR();
 					combo = 0;
 					spd.y = 0.0f;
 				}
+			}
+			else if (dis == stage->GetMaxR()) {
+				//	ついている間ダメージ
 			}
 		}
 
@@ -257,7 +259,7 @@ void Player::Update(Input& input, Stage& stage)
 #pragma region Resporn
 		if (input.GetTriggerKey(KEY_INPUT_R)) {
 			if (dis > deadR) {
-				stage.SetDeadAngle(angle);
+				stage->SetDeadAngle(angle);
 				RespornInit();
 			}
 			else {

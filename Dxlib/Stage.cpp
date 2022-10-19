@@ -7,8 +7,8 @@ Stage::Stage()
 {
 	x = WIN_WIDTH / 2.0f;
 	y = WIN_HEIGHT / 2.0f;
-	maxR = 300;
-	minR = 100;
+	maxR = 300.0f;
+	minR = 100.0f;
 
 	clearNum = 5;
 
@@ -31,7 +31,9 @@ void Stage::Update()
 		if (line[i].flashing && line[i].activeTime > 0) line[i].activeTime--;
 		if (line[i].flashing && line[i].activeTime <= 0 && line[i].isActive) {
 			line[i].isActive = false;
-			clearNum--;
+			if (circle.isActive) {
+				clearNum--;
+			}
 		}
 
 		if (line[i].shake && line[i].shakeTime > 0) line[i].shakeTime--;

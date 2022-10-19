@@ -28,8 +28,8 @@ class Stage
 private:
 	int x;
 	int y;
-	int maxR;
-	int minR;
+	float maxR;
+	float minR;
 	int clearNum;
 	std::vector<Line> line;
 
@@ -46,5 +46,7 @@ public:
 	void DamageCircle(int damage) { circle.life -= damage; }
 
 	void SetDeadAngle(float& angle);
+	float GetMaxR() { return maxR; }
+	float GetMinR() { return minR; }
 };
 

@@ -3,12 +3,14 @@
 #include "Vector2.h"
 #include "Stage.h"
 #include <vector>
+#include <memory>
 
 class Player
 {
 private:
+	Stage* stage = nullptr;
 	std::vector<int> lvMaxSpd;
-
+	static const int MaxLv = 5;
 	int level;
 
 	bool prevOnStage;
@@ -44,9 +46,9 @@ private:
 	void RespornInit();
 	void SetComboSpd();
 public:
-	Player();
+	Player(Stage* stage_);
 	void Init();
-	void Update(Input& input, Stage& stage);
+	void Update(Input& input);
 	void Draw();
 	void KnockBack(Vector2& e_spd);
 	Vector2 GetPos() {
