@@ -101,10 +101,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		// 描画処理
-		player.Draw();
 		stage.Draw();
 
 		enemyManeger.draw();
+
+		player.Draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

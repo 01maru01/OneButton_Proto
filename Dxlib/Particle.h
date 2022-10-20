@@ -7,6 +7,9 @@ private:
 	Vector2 angle;
 	float radias = 1;
 	float countDown;
+	int count;
+	int color;
+	int colorParamater;
 	bool isDied = false;
 public:
 	Particle(Vector2 pos);

@@ -93,14 +93,14 @@ void EnemyManager::update(Vector2 player)
 
 void EnemyManager::draw()
 {
-	for (int i = 0; i < enemys.size(); i++)
-	{
-		enemys[i]->Draw();
-	}
-
 	for (int i = 0; i < particle.size(); i++)
 	{
 		particle[i]->Draw();
+	}
+
+	for (int i = 0; i < enemys.size(); i++)
+	{
+		enemys[i]->Draw();
 	}
 }
 
