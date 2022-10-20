@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Dxlib.h"
 #include <vector>
 #include "Input.h"
 #include <cmath>
@@ -29,6 +30,6 @@ private:
 	std::vector<Enemy*> enemys;
 
 	Input input;
-
+	int enemyGraph = LoadGraph("Resources/playerTest.png");
 };
 

@@ -11,6 +11,7 @@
     <ClCompile Include="NoMoveEnemy.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h" />
@@ -23,5 +24,6 @@
     <ClInclude Include="NoMoveEnemy.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="Particle.h" />
   </ItemGroup>
 </Project>

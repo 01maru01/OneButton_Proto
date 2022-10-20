@@ -4,7 +4,7 @@
 
 class Enemy {
 private:
-
+	int enemyGraph;
 	Vector2 pos;
 	Vector2 playerPos;
 	bool isDied = false;
@@ -19,7 +19,7 @@ private:
 	bool CircleCollsionE(Vector2 play, Vector2 ene);
 public:
 	Enemy();
-	void Initialize();
+	void Initialize(int graph);
 	void Draw();
 	void Update(Vector2 player);
 	void SetPos(Vector2 Pos);

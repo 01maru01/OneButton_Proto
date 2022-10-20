@@ -113,7 +113,7 @@ void EnemyManager::enemyPop(float WIN_WIDTH, float WIN_HEIGHT)
 	Pos.y = WIN_HEIGHT / 2.0f + b + (a / static_cast <float>(10));
 
 	//enemy‚Ìinit‚ðŒÄ‚Ô
-	newEnemy->Initialize();
+	newEnemy->Initialize(enemyGraph);
 	newEnemy->SetPos(Pos);
 
 	if (a < 0) {

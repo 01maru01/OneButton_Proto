@@ -40,7 +40,7 @@ Enemy::Enemy() {
 	//Initialize();
 }
 
-void Enemy::Initialize() {
+void Enemy::Initialize(int graph) {
 	playerPos = { 0,0 };
 	maxSpd = 0.1f;
 	spd = 0.04f;
@@ -50,10 +50,17 @@ void Enemy::Initialize() {
 
 	pos.x = WIN_WIDTH / 2.0f + cos(angle * PI * 2) * dis;
 	pos.y = WIN_HEIGHT / 2.0f + sin(angle * PI * 2) * dis;
+
+	enemyGraph = graph;
 }
 
 void Enemy::Draw() {
-	DrawCircle(pos.x, pos.y, radias, color, true);
+	//DrawCircle(pos.x, pos.y, radias, color, true);
+
+	//int x = pos.x - radias;
+	//int y = pos.y - radias;
+
+	DrawGraph(pos.x - radias, pos.y - radias, enemyGraph, false);
 }
 
 void Enemy::Update(Vector2 player) {
@@ -85,7 +92,7 @@ void Enemy::Update(Vector2 player) {
 			//color = 0xaaaa00;
 		}
 	}
-	color = GetColor(attackCount / 3,150, attackCount / 3);
+	color = GetColor(attackCount / 3, 150, attackCount / 3);
 
 }
 
@@ -106,8 +113,8 @@ void Enemy::OnCollsion()
 
 void Enemy::SetAttack() {
 	if (attackFlag != true) {
-			attackFlag = true;
-			//playerPos = player;
+		attackFlag = true;
+		//playerPos = player;
 	}
 }
 
