@@ -12,8 +12,25 @@ public:
 	void Init();
 	void Update();
 
+	/// <summary>
+	/// ランダムに周りにばらまくエフェクト
+	/// </summary>
+	/// <param name="activeTime">実行時間</param>
 	void ExplosionEffect(int activeTime);
-	void popEffect(Vector2 pos, float liveTime = 50);
+
+	/// <summary>
+	/// マネージャーの位置から5方向に飛ぶエフェクト
+	/// </summary>
+	/// <param name="activeTime">発生時間</param>
+	/// <param name="angle">発射角度</param>
+	/// <param name="width">弾の幅</param>
+	void way5Effect(int activeTime, float angle,float width);
+
+	void breakEffect(int activeTime, float angle, float width,int EffectNum);
+
+	void breakCircleEffect(int activeTime, float R, int EffectNum);
+
+	void popEffect(Vector2 pos, float liveTime = 50,bool isGravity=false);
 
 	void setPos(Vector2 pos);
 
@@ -21,8 +38,18 @@ public:
 
 	Vector2 getPos();
 
+
+	void setEffectSpeed(float speed);
+
+	void setEffectLiveTime(float liveTime);
+
 	bool GetIsEffctEnd() { return isEffectEnd; };
 
+	void resetEffectFlag();
+
+private:
+
+	void effectStartSet(int activeTime);
 
 private:
 
@@ -46,7 +73,9 @@ private:
 
 	int coolTime = maxCoolTime;
 
-	float effctSpeed = 0.5f;
+	float effectSpeed = 0.5f;
+
+	float effectLiveTime = 50;
 
 };
 

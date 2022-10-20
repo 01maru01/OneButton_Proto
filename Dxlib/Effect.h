@@ -25,6 +25,7 @@ public:
 
 	void SetPos(Vector2 pos);
 	void SetSpeed(float speed);
+	void setIsGravity(bool flag);
 
 	bool GetIsDead() { return isDead; };
 
@@ -35,4 +36,8 @@ private:
 	bool isDead = false;
 	float liveTime = 50;
 	float moveSpeed = 1;
+	float speedAcceleration = 0;
+
+	bool isGravity=false;
+	float gravity = 0;
 };

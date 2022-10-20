@@ -23,13 +23,27 @@ void Effect::Init(Vector2 pos, Vector2 moveVec, float LiveTime)
 void Effect::Update()
 {
 	liveTime--;
+	speedAcceleration+=0.05;
+	gravity += 0.98;
 	if (liveTime <= 0)
 	{
 		isDead = true;
 	}
 	
-	pos += moveVector * moveSpeed;
+	float speed= moveSpeed * speedAcceleration;
 	
+
+	
+	
+	if (isGravity)
+	{
+		pos.x += moveVector.x * speed;
+		pos.y += (moveVector.y*speed)+gravity;
+	}
+	else
+	{
+		pos += moveVector * speed;
+	}
 
 }
 
@@ -52,5 +66,10 @@ void Effect::SetSpeed(float speed)
 
 	moveSpeed = speed;
 
+}
+
+void Effect::setIsGravity(bool flag)
+{
+	isGravity = flag;
 }
 
