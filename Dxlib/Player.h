@@ -41,6 +41,7 @@ private:
 	Vector2 backSpd;	//	x:spd,y:dis
 
 	//	combo
+	int maxCombo;
 	int combo;
 
 	void RespornInit();

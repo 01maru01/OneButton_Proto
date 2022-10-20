@@ -23,9 +23,12 @@ void Player::RespornInit()
 
 void Player::SetComboSpd()
 {
-	int maxCombo = 15;
 	int num = combo;
-	if (combo > maxCombo) num = maxCombo;
+	if (combo > maxCombo) {
+		combo = maxCombo;
+		num = maxCombo;
+	}
+
 	num /= 3.0f;
 	maxSpd = 0.1f + num * 0.03f;
 }
@@ -49,6 +52,8 @@ void Player::Init()
 	maxSpd = 0.1f;
 	minSpd = 0.05f;
 	angle = 0.0f;
+
+	maxCombo = 15;
 
 	RespornInit();
 }
@@ -205,7 +210,7 @@ void Player::Update(Input& input)
 			}
 
 			if (dis <= stage->GetMinR()) {
-				stage->DamageCircle(1);
+				stage->DamageCircle(combo);
 				dis = stage->GetMinR();
 				hAttack = true;
 				hAttackSpd = 20.0f;
@@ -300,8 +305,8 @@ void Player::KnockBack(Vector2& e_spd)
 	Vector2 vertVec(-lineVec.y, lineVec.x);
 
 	//	ëÂÇ´Ç≥íçà”
-	backSpd.x = vertVec.dot(e_spd) / 30.0f;
-	backSpd.y = lineVec.dot(e_spd) * 50;
+	backSpd.x = spd.x * 10.0f * vertVec.dot(e_spd) / 30.0f;	//	ç≈ëÂíl:1884
+	backSpd.y = spd.x * 10.0f * lineVec.dot(e_spd) * 10;	//	ç≈ëÂíl:300
 
 	if (backSpd.x < 0) {
 		backSpd.x += spd.x;

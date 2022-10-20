@@ -30,6 +30,7 @@ private:
 	int y;
 	float maxR;
 	float minR;
+	int minCount;
 	int clearNum;
 	std::vector<Line> line;
 
@@ -38,12 +39,13 @@ private:
 	int idx = 0;
 public:
 	Stage();
+	void Init();
 	void Update();
 	void Draw();
 	bool OnCollision(float angle, bool damage, int combo = 0);
 	bool Feaver() { return !circle.isActive; }
 	void EndFeaver(bool hAttack);
-	void DamageCircle(int damage) { circle.life -= damage; }
+	void DamageCircle(int damage);
 
 	void SetDeadAngle(float& angle);
 	float GetMaxR() { return maxR; }
