@@ -9,6 +9,8 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="NoMoveEnemy.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h" />
@@ -19,5 +21,7 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="NoMoveEnemy.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
   </ItemGroup>
 </Project>
