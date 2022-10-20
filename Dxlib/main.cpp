@@ -87,7 +87,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		for (int i = 0; i < enemyManeger.getenemy().size(); i++)
 		{
-			enemyManeger.getenemy()[i]->Update(player.GetPos());
+			//enemyManeger.getenemy()[i]->Update(player.GetPos());
 			if (CircleCollsion(player.GetPos(), enemyManeger.getenemy()[i]->GetPos())) {
 
 				if (enemyManeger.getenemy()[i]->GetAttackFlag()) {

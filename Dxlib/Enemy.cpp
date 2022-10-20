@@ -36,10 +36,6 @@ float GetRandom(float min, float max)
 	return distr(eng);
 }
 
-Enemy::Enemy() {
-	//Initialize();
-}
-
 void Enemy::Initialize(int graph) {
 	playerPos = { 0,0 };
 	maxSpd = 0.1f;
@@ -59,7 +55,6 @@ void Enemy::Draw() {
 
 	//int x = pos.x - radias;
 	//int y = pos.y - radias;
-
 	DrawGraph(pos.x - radias, pos.y - radias, enemyGraph, false);
 }
 
@@ -93,7 +88,6 @@ void Enemy::Update(Vector2 player) {
 		}
 	}
 	color = GetColor(attackCount / 3, 150, attackCount / 3);
-
 }
 
 void Enemy::SetPos(Vector2 Pos)

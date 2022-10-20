@@ -17,8 +17,8 @@ private:
 	int search = 80;
 	int attackCount = 0;
 	bool CircleCollsionE(Vector2 play, Vector2 ene);
+
 public:
-	Enemy();
 	void Initialize(int graph);
 	void Draw();
 	void Update(Vector2 player);
@@ -36,4 +36,5 @@ public:
 	void OnCollsion();
 
 	float dis = 16;	//	プレイヤーと中心の距離
+	
 };

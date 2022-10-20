@@ -50,14 +50,43 @@ void EnemyManager::update(Vector2 player)
 	{
 		enemys[i]->Update(player);
 
-		if (input.GetTriggerKey(KEY_INPUT_R))
-		{
-			enemys[i]->SetIsDied(true);
-		}
+		//if (input.GetTriggerKey(KEY_INPUT_R))
+		//{
+		//	for (int j = 0; j < 10; j++)
+		//	{
+		//		//‰¼‰«‚Ì’†g‚ðì‚é
+		//		Particle* newparticle = new Particle(enemys[i]->GetPos());
+		//		//Ši”[
+		//		particle.push_back(newparticle);
+		//	}
 
+		//	enemys[i]->SetIsDied(true);
+		//}
+	}
+
+	for (int i = 0; i < enemys.size(); i++)
+	{
 		if (enemys[i]->GetIsDied())
 		{
+			for (int j = 0; j < 10; j++)
+			{
+				//‰¼‰«‚Ì’†g‚ðì‚é
+				Particle* newparticle = new Particle(enemys[i]->GetPos());
+				//Ši”[
+				particle.push_back(newparticle);
+			}
+
 			enemys.erase(enemys.begin() + i);
+		}
+	}
+
+	for (int i = 0; i < particle.size(); i++)
+	{
+		particle[i]->Update();
+
+		if (particle[i]->GetIsDied())
+		{
+			particle.erase(particle.begin() + i);
 		}
 	}
 }
@@ -67,6 +96,11 @@ void EnemyManager::draw()
 	for (int i = 0; i < enemys.size(); i++)
 	{
 		enemys[i]->Draw();
+	}
+
+	for (int i = 0; i < particle.size(); i++)
+	{
+		particle[i]->Draw();
 	}
 }
 

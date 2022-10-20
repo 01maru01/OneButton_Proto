@@ -1,8 +1,20 @@
 #pragma once
 #include "Vector2.h"
 
-void SquareParticle(Vector2 pos);
+class Particle {
+private:
+	Vector2 pos;
+	Vector2 angle;
+	float radias = 1;
+	float countDown;
+	bool isDied = false;
+public:
+	Particle(Vector2 pos);
+	~Particle();
 
-void SquareParticle(int x,int y);
+	//void SquareParticle();
+	void Draw();
+	void Update();
 
-void SquareParticle(float x, float y);
+	bool GetIsDied() { return isDied; };
+};

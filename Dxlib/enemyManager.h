@@ -4,6 +4,7 @@
 #include <vector>
 #include "Input.h"
 #include <cmath>
+#include "Particle.h"
 
 class EnemyManager
 {
@@ -25,9 +26,13 @@ public:
 	//enemy‚ğ‚à‚ç‚¤ŠÖ”
 	std::vector<Enemy*> getenemy();
 
+	std::vector<Particle*> getparticle;
 private:
 	//enemy‚ğ‚Á‚Ä‚¢‚é‚â‚Â
 	std::vector<Enemy*> enemys;
+
+	//particle‚ğ‚Á‚Ä‚¢‚é‚â‚Â
+	std::vector<Particle*> particle;
 
 	Input input;
 	int enemyGraph = LoadGraph("Resources/playerTest.png");
