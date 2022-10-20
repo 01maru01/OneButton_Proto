@@ -15,7 +15,7 @@ bool Enemy::CircleCollsionE(Vector2 ene, Vector2 play) {
 	int a = (play.x - enemy.x) * (play.x - enemy.x);
 	int b = (play.y - enemy.y) * (play.y - enemy.y);
 
-	int c = 26 * 26;
+	int c = 32 * 32;
 
 	//DrawCircle(enemy.x, enemy.y, radias + search, color, false);
 

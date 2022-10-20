@@ -49,19 +49,6 @@ void EnemyManager::update(Vector2 player)
 	for (int i = 0; i < enemys.size(); i++)
 	{
 		enemys[i]->Update(player);
-
-		//if (input.GetTriggerKey(KEY_INPUT_R))
-		//{
-		//	for (int j = 0; j < 10; j++)
-		//	{
-		//		//‰¼‰«‚Ì’†g‚ðì‚é
-		//		Particle* newparticle = new Particle(enemys[i]->GetPos());
-		//		//Ši”[
-		//		particle.push_back(newparticle);
-		//	}
-
-		//	enemys[i]->SetIsDied(true);
-		//}
 	}
 
 	for (int i = 0; i < enemys.size(); i++)

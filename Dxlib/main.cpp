@@ -11,7 +11,7 @@ bool CircleCollsion(Vector2 play, Vector2 ene) {
 	int a = (play.x - ene.x) * (play.x - ene.x);
 	int b = (play.y - ene.y) * (play.y - ene.y);
 
-	int c = 26 * 26 ;
+	int c = 32 * 32 ;
 
 	//‚ ‚½‚è”»’è
 	if (a + b < c)
