@@ -216,12 +216,55 @@ void EffectManager::breakCircleEffect(int activeTime, float R, int EffectNum)
 
 }
 
-void EffectManager::popEffect(Vector2 pos,float liveTime, bool isGravity)
+void EffectManager::fallFragmentEffect(int activeTime, Vector2 upVec)
+{
+
+	effectStartSet(activeTime);
+
+	if (isEffectEnd == false)
+	{
+
+		if (coolTime <= 0)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				
+				float x = 50+sinf(upVec.x);
+				float y = upVec.y;
+				moveVecor = { x,y };
+				
+				if (i == 1)
+				{
+					moveVecor.x = -50 - sinf(upVec.x);
+				}
+				
+				moveVecor.y += cosf((30 + ((1 * i)) * 30));
+				moveVecor.normalize();
+
+				//moveVecor += upVec.normalize();
+				
+				/*if (i == 1)
+				{
+					moveVecor = { -moveVecor.x,moveVecor.y };
+				}*/
+				popEffect(pos, effectLiveTime,false,upVec);
+			}
+			coolTime = maxCoolTime;
+		}
+
+		coolTime--;
+		activeTimer--;
+	}
+
+}
+
+void EffectManager::popEffect(Vector2 pos,float liveTime, bool isGravity, Vector2 upVec)
 {
 
 	std::unique_ptr<Effect> newEffect = std::make_unique<Effect>();
 	newEffect->Init(pos, moveVecor,liveTime);
 	newEffect->SetSpeed(effectSpeed);
+	newEffect->setupVector(upVec);
 	newEffect->setIsGravity(isGravity);
 
 	//“GƒLƒƒƒ‰‚ð“o˜^
@@ -248,7 +291,7 @@ void EffectManager::draw()
 	{
 		effects[i]->Draw();
 	}
-
+	DrawCircle(pos.x, pos.y, 1,0x00ff00);
 }
 
 void EffectManager::resetEffectFlag()

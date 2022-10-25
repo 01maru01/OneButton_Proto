@@ -26,11 +26,26 @@ public:
 	/// <param name="width">弾の幅</param>
 	void way5Effect(int activeTime, float angle,float width);
 
+	/// <summary>
+	/// 壁からでるエフェクトのつもりだった
+	/// </summary>
+	/// <param name="activeTime">発生時間</param>
+	/// <param name="angle">どの角度か</param>
+	/// <param name="width">横幅</param>
+	/// <param name="EffectNum">横幅に対していくつのエフェクトを描画する数</param>
 	void breakEffect(int activeTime, float angle, float width,int EffectNum);
 
+	/// <summary>
+	/// 設定した範囲(円形)にランダムに発生させて落下させるエフェクト
+	/// </summary>
+	/// <param name="activeTime">実行時間</param>
+	/// <param name="R">半径</param>
+	/// <param name="EffectNum">一回で何個生成するか</param>
 	void breakCircleEffect(int activeTime, float R, int EffectNum);
 
-	void popEffect(Vector2 pos, float liveTime = 50,bool isGravity=false);
+	void fallFragmentEffect(int activeTime, Vector2 upVec);
+
+	void popEffect(Vector2 pos, float liveTime = 50,bool isGravity=false, Vector2 upVec={0,0});
 
 	void setPos(Vector2 pos);
 

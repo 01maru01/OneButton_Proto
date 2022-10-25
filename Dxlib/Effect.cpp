@@ -25,6 +25,8 @@ void Effect::Update()
 	liveTime--;
 	speedAcceleration+=0.05;
 	gravity += 0.98;
+	Vector2 gravityVec = { -(upVector.x),(upVector.y) };
+	gravityVec.normalize();
 	if (liveTime <= 0)
 	{
 		isDead = true;
@@ -32,17 +34,25 @@ void Effect::Update()
 	
 	float speed= moveSpeed * speedAcceleration;
 	
-
-	
-	
-	if (isGravity)
+	if (upVector.x != 0 or upVector.y != 0)
 	{
-		pos.x += moveVector.x * speed;
-		pos.y += (moveVector.y*speed)+gravity;
+
+		moveSpeedY += gravityVec.y;
+
+		pos.x += moveVector.x* moveSpeed;
+		pos.y += moveVector.y* moveSpeedY;
 	}
 	else
 	{
-		pos += moveVector * speed;
+		if (isGravity)
+		{
+			pos.x += moveVector.x * moveSpeed;
+			pos.y += (moveVector.y * moveSpeed) + gravity;
+		}
+		else
+		{
+			pos += moveVector * speed;
+		}
 	}
 
 }
@@ -73,3 +83,9 @@ void Effect::setIsGravity(bool flag)
 	isGravity = flag;
 }
 
+void Effect::setupVector(Vector2 vec)
+{
+
+	upVector = vec;
+
+}

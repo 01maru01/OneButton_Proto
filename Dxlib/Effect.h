@@ -18,14 +18,15 @@ public:
 
 	/// <summary>
 	/// çXêV
-	/// </summary>
-	
+	/// </summary>	
 	void Update();
+
 	void Draw();
 
 	void SetPos(Vector2 pos);
 	void SetSpeed(float speed);
 	void setIsGravity(bool flag);
+	void setupVector(Vector2 vec);
 
 	bool GetIsDead() { return isDead; };
 
@@ -33,9 +34,11 @@ private:
 
 	Vector2 pos;
 	Vector2 moveVector;
+	Vector2 upVector;
 	bool isDead = false;
 	float liveTime = 50;
 	float moveSpeed = 1;
+	float moveSpeedY = 1;
 	float speedAcceleration = 0;
 
 	bool isGravity=false;
