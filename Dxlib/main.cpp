@@ -5,6 +5,7 @@
 #include "Stage.h"
 #include "Input.h"
 #include "enemyManager.h"
+#include "EffectManager.h"
 
 bool CircleCollsion(Vector2 play, Vector2 ene) {
 
@@ -57,6 +58,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Player player(&stage);
 	Input input;
 	EnemyManager enemyManeger;
+	EffectManager effectM;
+
+	effectM.Init();
+
+	effectM.setEffectSpeed(3.0f);
+	effectM.setEffectLiveTime(20.0f);
 
 	int time = 0;
 
@@ -100,12 +107,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 		}
 
+		if (input.GetKey(KEY_INPUT_O))
+		{
+			effectM.resetEffectFlag();
+		}
+
+		if (effectM.GetIsEffctEnd() == false)
+		{
+			effectM.fallFragmentEffect(1, {20,60});
+		}
+
+		effectM.Update();
+
 		// 描画処理
 		stage.Draw();
 
 		enemyManeger.draw();
 
 		player.Draw();
+		effectM.draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
